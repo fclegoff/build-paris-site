@@ -3,497 +3,566 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BUILD — Atelier de construction décors</title>
-  <meta name="description" content="BUILD est un atelier de construction de décors pour la publicité et la scénographie. Basé à Pantin.">
-  <meta property="og:title" content="BUILD — Atelier de construction décors">
-  <meta property="og:description" content="Construction de décors pour la publicité. Atelier basé à Pantin.">
+  <title>BUILD — Production Design · Set Building Workshop</title>
+  <meta name="description" content="Production design & set building workshop. Pantin 93. Chaumet, Adidas, Centre Pompidou, Ashi Studio, Paloma Wool.">
+  <meta property="og:title" content="BUILD — Production Design · Set Building Workshop">
+  <meta property="og:description" content="Set building workshop based in Pantin. We build sets for fashion, advertising and events.">
+  <meta property="og:image" content="/img/proj-11.jpg">
   <meta property="og:url" content="https://build-paris.com">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black: #0a0a0a;
-      --white: #f5f4f0;
-      --grey:  #888;
-      --accent: #0a0a0a;
+      --black: #0c0c0c;
+      --off-white: #f2f0ec;
+      --grey: #888;
+      --mid: #1e1e1e;
       --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
 
     html { scroll-behavior: smooth; }
-
     body {
       font-family: var(--font);
-      background: var(--white);
+      background: var(--off-white);
       color: var(--black);
-      font-size: 16px;
-      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── NAV ────────────────────────────────────────── */
+    /* ── NAV ─────────────────────────────────── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 40px;
-      background: var(--white);
+      padding: 18px 32px;
+      mix-blend-mode: normal;
+      transition: background .3s, border-color .3s;
+    }
+    nav.scrolled {
+      background: rgba(242,240,236,.95);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(0,0,0,.08);
     }
     .nav-logo {
-      font-size: 18px; font-weight: 700; letter-spacing: .12em;
-      text-transform: uppercase; text-decoration: none; color: var(--black);
+      font-size: 15px; font-weight: 800; letter-spacing: .18em;
+      text-transform: uppercase; text-decoration: none; color: var(--off-white);
+      transition: color .3s;
     }
-    .nav-links { display: flex; gap: 32px; list-style: none; }
+    nav.scrolled .nav-logo { color: var(--black); }
+    .nav-right { display: flex; align-items: center; gap: 28px; }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
     .nav-links a {
-      font-size: 13px; font-weight: 500; letter-spacing: .06em;
-      text-transform: uppercase; text-decoration: none; color: var(--black);
-      opacity: .5; transition: opacity .2s;
+      font-size: 11px; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; text-decoration: none;
+      color: rgba(255,255,255,.6); transition: color .3s;
     }
-    .nav-links a:hover { opacity: 1; }
-    .nav-contact {
-      font-size: 13px; font-weight: 600; letter-spacing: .06em;
-      text-transform: uppercase; text-decoration: none; color: var(--black);
-      border: 1.5px solid var(--black); padding: 8px 18px; border-radius: 2px;
-      transition: background .2s, color .2s;
+    nav.scrolled .nav-links a { color: rgba(0,0,0,.5); }
+    .nav-links a:hover { color: var(--off-white) !important; }
+    nav.scrolled .nav-links a:hover { color: var(--black) !important; }
+    .nav-insta {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: .08em;
+      text-decoration: none; color: rgba(255,255,255,.5);
+      transition: color .3s;
     }
-    .nav-contact:hover { background: var(--black); color: var(--white); }
+    nav.scrolled .nav-insta { color: rgba(0,0,0,.4); }
+    .nav-insta:hover { color: var(--off-white) !important; }
+    nav.scrolled .nav-insta:hover { color: var(--black) !important; }
 
     @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
+      nav { padding: 14px 20px; }
       .nav-links { display: none; }
     }
 
-    /* ── HERO ───────────────────────────────────────── */
+    /* ── HERO ────────────────────────────────── */
     #hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 0 40px 60px;
-      position: relative; overflow: hidden;
+      height: 100vh; position: relative; overflow: hidden;
+      display: flex; align-items: flex-end;
+    }
+    .hero-image {
+      position: absolute; inset: 0;
       background: var(--black);
     }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    .hero-image img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: .7; display: block;
     }
-    .hero-grid {
+    .hero-overlay {
       position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-      background-size: 80px 80px;
+      background: linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.1) 50%, transparent 100%);
     }
-    .hero-content { position: relative; z-index: 1; max-width: 900px; }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 48px 56px; width: 100%;
+      display: flex; align-items: flex-end; justify-content: space-between;
+    }
+    .hero-left {}
     .hero-tag {
-      display: inline-block; font-size: 11px; font-weight: 600;
-      letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.4);
-      margin-bottom: 24px;
+      display: block; font-size: 10px; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: rgba(255,255,255,.4); margin-bottom: 14px;
     }
-    .hero-title {
-      font-size: clamp(52px, 9vw, 120px);
-      font-weight: 700; line-height: .95;
-      letter-spacing: -.03em; color: var(--white);
-      margin-bottom: 32px;
+    h1 {
+      font-size: clamp(48px, 8vw, 108px);
+      font-weight: 800; line-height: .92; letter-spacing: -.03em;
+      color: var(--off-white);
     }
-    .hero-title em { font-style: normal; color: rgba(255,255,255,.25); }
-    .hero-sub {
-      font-size: clamp(15px, 1.8vw, 19px);
-      color: rgba(255,255,255,.5); max-width: 520px; line-height: 1.6;
-      margin-bottom: 48px;
+    h1 span { display: block; color: rgba(255,255,255,.2); }
+    .hero-right {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+      padding-bottom: 6px;
     }
-    .hero-cta {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: var(--white); color: var(--black);
-      font-size: 13px; font-weight: 700; letter-spacing: .1em;
-      text-transform: uppercase; text-decoration: none;
-      padding: 14px 28px; border-radius: 2px;
-      transition: opacity .2s;
+    .hero-right p {
+      font-size: 13px; color: rgba(255,255,255,.4);
+      text-align: right; line-height: 1.6; max-width: 240px;
     }
-    .hero-cta:hover { opacity: .85; }
-    .hero-scroll {
-      position: absolute; bottom: 32px; right: 40px;
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-      color: rgba(255,255,255,.25); font-size: 10px; letter-spacing: .15em;
-      text-transform: uppercase;
+    .scroll-hint {
+      display: flex; align-items: center; gap: 8px; margin-top: 16px;
+      font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(255,255,255,.2);
     }
-    .hero-scroll-line {
-      width: 1px; height: 48px;
-      background: linear-gradient(to bottom, rgba(255,255,255,.25), transparent);
+    .scroll-hint::before {
+      content: ''; display: block; width: 32px; height: 1px;
+      background: rgba(255,255,255,.2);
     }
 
     @media (max-width: 768px) {
-      #hero { padding: 0 20px 48px; }
-      .hero-scroll { display: none; }
+      .hero-content { padding: 0 20px 40px; flex-direction: column; align-items: flex-start; gap: 20px; }
+      .hero-right { align-items: flex-start; }
+      .hero-right p { text-align: left; }
     }
 
-    /* ── SECTION BASE ───────────────────────────────── */
-    section { padding: 100px 40px; }
-    @media (max-width: 768px) { section { padding: 72px 20px; } }
-
-    .section-tag {
-      font-size: 11px; font-weight: 600; letter-spacing: .18em;
-      text-transform: uppercase; color: var(--grey); margin-bottom: 16px;
+    /* ── TICKER ──────────────────────────────── */
+    .ticker {
+      background: var(--black); color: var(--off-white);
+      padding: 14px 0; overflow: hidden; white-space: nowrap;
     }
-    .section-title {
-      font-size: clamp(32px, 5vw, 56px); font-weight: 700;
-      letter-spacing: -.02em; line-height: 1.05; margin-bottom: 24px;
+    .ticker-inner {
+      display: inline-flex; gap: 0;
+      animation: ticker 28s linear infinite;
+    }
+    .ticker-item {
+      display: inline-flex; align-items: center; gap: 20px;
+      padding: 0 24px;
+      font-size: 11px; font-weight: 600; letter-spacing: .14em;
+      text-transform: uppercase; color: rgba(255,255,255,.35);
+    }
+    .ticker-item .dot { color: rgba(255,255,255,.15); }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
 
-    /* ── PROJETS ────────────────────────────────────── */
-    #projets { background: var(--white); }
-    .projets-header {
-      display: flex; align-items: flex-end; justify-content: space-between;
-      margin-bottom: 60px; flex-wrap: wrap; gap: 20px;
+    /* ── GRID PROJETS ────────────────────────── */
+    #projets { padding: 80px 0 0; background: var(--off-white); }
+    .projets-head {
+      padding: 0 32px 48px;
+      display: flex; align-items: baseline; justify-content: space-between;
     }
-    .projets-header p { font-size: 16px; color: var(--grey); max-width: 400px; }
+    .projets-head h2 {
+      font-size: clamp(28px, 4vw, 44px); font-weight: 800;
+      letter-spacing: -.025em;
+    }
+    .projets-head a {
+      font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--grey); border-bottom: 1px solid currentColor;
+      padding-bottom: 2px; transition: color .2s;
+    }
+    .projets-head a:hover { color: var(--black); }
 
-    .projets-grid {
+    .grid {
       display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
     }
-    .projet-card {
-      position: relative; overflow: hidden; cursor: pointer;
-      background: #e8e6e0;
+    .grid-item {
+      position: relative; overflow: hidden;
+      background: #d8d6d0; cursor: pointer;
     }
-    .projet-card::after {
+    .grid-item:nth-child(1) { grid-column: span 2; aspect-ratio: 16/9; }
+    .grid-item:nth-child(2) { grid-column: span 1; aspect-ratio: 9/16; grid-row: span 2; }
+    .grid-item:nth-child(3) { grid-column: span 1; aspect-ratio: 4/3; }
+    .grid-item:nth-child(4) { grid-column: span 1; aspect-ratio: 4/3; }
+    .grid-item:nth-child(5) { grid-column: span 1; aspect-ratio: 1; }
+    .grid-item:nth-child(6) { grid-column: span 1; aspect-ratio: 1; }
+    .grid-item:nth-child(7) { grid-column: span 1; aspect-ratio: 1; }
+
+    .grid-item img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+    }
+    .grid-item:hover img { transform: scale(1.05); }
+    .grid-item::after {
       content: ''; position: absolute; inset: 0;
-      background: var(--black); opacity: 0; transition: opacity .3s;
+      background: var(--black); opacity: 0;
+      transition: opacity .3s;
     }
-    .projet-card:hover::after { opacity: .5; }
-    .projet-card:hover .projet-info { opacity: 1; transform: translateY(0); }
+    .grid-item:hover::after { opacity: .45; }
 
-    .projet-card:nth-child(1) { grid-column: span 7; aspect-ratio: 16/10; }
-    .projet-card:nth-child(2) { grid-column: span 5; aspect-ratio: 4/5; }
-    .projet-card:nth-child(3) { grid-column: span 4; aspect-ratio: 4/5; }
-    .projet-card:nth-child(4) { grid-column: span 8; aspect-ratio: 16/10; }
-    .projet-card:nth-child(5) { grid-column: span 6; aspect-ratio: 4/3; }
-    .projet-card:nth-child(6) { grid-column: span 6; aspect-ratio: 4/3; }
-
-    .projet-img {
-      width: 100%; height: 100%; object-fit: cover;
-      display: block; transition: transform .5s ease;
-    }
-    .projet-card:hover .projet-img { transform: scale(1.04); }
-
-    .projet-placeholder {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      background: #dddbd5;
-      font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-      color: #aaa; font-weight: 500;
-    }
-
-    .projet-info {
+    .grid-caption {
       position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
-      padding: 24px; opacity: 0; transform: translateY(8px);
+      padding: 20px 20px 18px;
+      background: linear-gradient(to top, rgba(0,0,0,.7), transparent);
+      opacity: 0; transform: translateY(6px);
       transition: opacity .3s, transform .3s;
     }
-    .projet-info h3 {
-      color: var(--white); font-size: 18px; font-weight: 700;
-      letter-spacing: -.01em; margin-bottom: 4px;
+    .grid-item:hover .grid-caption { opacity: 1; transform: translateY(0); }
+    .grid-caption .client {
+      font-size: 10px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 4px;
     }
-    .projet-info p { color: rgba(255,255,255,.6); font-size: 13px; }
-
-    @media (max-width: 900px) {
-      .projets-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-      .projet-card:nth-child(n) { grid-column: span 1; aspect-ratio: 4/3; }
-      .projet-card:nth-child(1) { grid-column: span 2; }
-    }
-    @media (max-width: 600px) {
-      .projets-grid { grid-template-columns: 1fr; }
-      .projet-card:nth-child(n) { grid-column: span 1; }
+    .grid-caption h3 {
+      font-size: 16px; font-weight: 700; color: var(--off-white);
+      letter-spacing: -.01em; line-height: 1.2;
     }
 
-    /* ── SERVICES ───────────────────────────────────── */
-    #services { background: var(--black); color: var(--white); }
-    #services .section-title { color: var(--white); }
-    #services .section-tag { color: rgba(255,255,255,.3); }
-
-    .services-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 1px; background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.08);
-      margin-top: 60px;
-    }
-    .service-item {
-      padding: 48px 40px; background: var(--black);
-      transition: background .2s;
-    }
-    .service-item:hover { background: #111; }
-    .service-num {
-      font-size: 11px; font-weight: 600; letter-spacing: .15em;
-      color: rgba(255,255,255,.2); margin-bottom: 28px;
-    }
-    .service-icon { font-size: 28px; margin-bottom: 20px; display: block; }
-    .service-item h3 {
-      font-size: 20px; font-weight: 700; letter-spacing: -.01em;
-      margin-bottom: 12px; color: var(--white);
-    }
-    .service-item p { font-size: 14px; color: rgba(255,255,255,.4); line-height: 1.7; }
-
-    @media (max-width: 900px) {
-      .services-grid { grid-template-columns: 1fr; }
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 2px; }
+      .grid-item:nth-child(n) { grid-column: span 1; grid-row: span 1; aspect-ratio: 1; }
+      .grid-item:nth-child(1) { grid-column: span 2; aspect-ratio: 16/9; }
+      .grid-caption { opacity: 1; transform: none; }
     }
 
-    /* ── ATELIER ────────────────────────────────────── */
-    #atelier {
+    /* ── INSTAGRAM FEED ──────────────────────── */
+    #instagram {
+      padding: 80px 32px;
+      background: var(--black);
+    }
+    .insta-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .insta-handle {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .insta-handle svg { opacity: .5; }
+    .insta-handle span {
+      font-size: 14px; font-weight: 700; letter-spacing: .04em;
+      color: var(--off-white);
+    }
+    .insta-follow {
+      font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--off-white); border: 1.5px solid rgba(255,255,255,.25);
+      padding: 8px 18px; border-radius: 2px; transition: border-color .2s;
+    }
+    .insta-follow:hover { border-color: var(--off-white); }
+
+    .insta-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 3px;
+    }
+    .insta-thumb {
+      aspect-ratio: 1; overflow: hidden; background: var(--mid);
+      text-decoration: none; display: block; position: relative;
+    }
+    .insta-thumb img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .4s, opacity .3s;
+    }
+    .insta-thumb:hover img { transform: scale(1.06); opacity: .7; }
+
+    @media (max-width: 900px) { .insta-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px) { .insta-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    /* ── ABOUT ───────────────────────────────── */
+    #about {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 80px; align-items: center;
-      background: var(--white);
+      background: var(--off-white);
     }
-    .atelier-img-wrap {
-      aspect-ratio: 4/5; background: #dddbd5; position: relative; overflow: hidden;
+    .about-img {
+      aspect-ratio: 1; overflow: hidden; background: #d8d6d0;
     }
-    .atelier-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-    .atelier-placeholder {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-      color: #bbb; font-weight: 500;
+    .about-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .about-content {
+      padding: 72px 56px; display: flex; flex-direction: column; justify-content: center;
     }
-    .atelier-content .section-title { margin-bottom: 20px; }
-    .atelier-content p {
-      font-size: 16px; color: #555; line-height: 1.8;
-      margin-bottom: 16px;
+    .about-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--grey); margin-bottom: 20px;
     }
-    .atelier-stats {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 32px; margin-top: 48px;
+    .about-content h2 {
+      font-size: clamp(28px, 3.5vw, 44px); font-weight: 800;
+      letter-spacing: -.025em; line-height: 1.1; margin-bottom: 24px;
     }
-    .stat-num {
-      font-size: 42px; font-weight: 700; letter-spacing: -.03em;
-      line-height: 1;
+    .about-content p {
+      font-size: 15px; color: #555; line-height: 1.8; margin-bottom: 12px;
     }
-    .stat-label { font-size: 13px; color: var(--grey); margin-top: 4px; }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+      margin-top: 40px; padding-top: 40px;
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+    .stat-n { font-size: 36px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+    .stat-l { font-size: 12px; color: var(--grey); margin-top: 4px; letter-spacing: .02em; }
 
     @media (max-width: 900px) {
-      #atelier { grid-template-columns: 1fr; gap: 40px; padding: 72px 20px; }
+      #about { grid-template-columns: 1fr; }
+      .about-content { padding: 48px 24px; }
     }
 
-    /* ── CONTACT ────────────────────────────────────── */
-    #contact { background: var(--black); color: var(--white); text-align: center; }
-    #contact .section-title { color: var(--white); max-width: 600px; margin: 0 auto 16px; }
-    #contact .section-tag { color: rgba(255,255,255,.3); }
-    .contact-sub {
-      font-size: 16px; color: rgba(255,255,255,.4);
-      max-width: 400px; margin: 0 auto 48px;
+    /* ── CONTACT ─────────────────────────────── */
+    #contact {
+      background: var(--black); color: var(--off-white);
+      padding: 100px 32px; text-align: center;
     }
-    .contact-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .btn-primary {
-      display: inline-block; background: var(--white); color: var(--black);
-      font-size: 13px; font-weight: 700; letter-spacing: .1em;
+    .contact-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: rgba(255,255,255,.25);
+      margin-bottom: 20px;
+    }
+    #contact h2 {
+      font-size: clamp(36px, 6vw, 72px); font-weight: 800;
+      letter-spacing: -.03em; line-height: .95;
+      color: var(--off-white); margin-bottom: 48px;
+    }
+    .contact-links {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+    .btn-white {
+      display: inline-block; background: var(--off-white); color: var(--black);
+      font-size: 12px; font-weight: 800; letter-spacing: .12em;
       text-transform: uppercase; text-decoration: none;
       padding: 14px 32px; border-radius: 2px; transition: opacity .2s;
     }
-    .btn-primary:hover { opacity: .85; }
-    .btn-secondary {
-      display: inline-block; border: 1.5px solid rgba(255,255,255,.2);
-      color: rgba(255,255,255,.6);
-      font-size: 13px; font-weight: 600; letter-spacing: .1em;
+    .btn-white:hover { opacity: .85; }
+    .btn-outline {
+      display: inline-block;
+      border: 1.5px solid rgba(255,255,255,.2); color: rgba(255,255,255,.5);
+      font-size: 12px; font-weight: 700; letter-spacing: .12em;
       text-transform: uppercase; text-decoration: none;
-      padding: 14px 32px; border-radius: 2px; transition: border-color .2s, color .2s;
+      padding: 14px 32px; border-radius: 2px; transition: all .2s;
     }
-    .btn-secondary:hover { border-color: var(--white); color: var(--white); }
-    .contact-details {
-      display: flex; gap: 48px; justify-content: center;
-      margin-top: 80px; flex-wrap: wrap;
+    .btn-outline:hover { border-color: var(--off-white); color: var(--off-white); }
+    .contact-info {
+      display: flex; gap: 60px; justify-content: center; flex-wrap: wrap;
+      margin-top: 80px; padding-top: 60px;
+      border-top: 1px solid rgba(255,255,255,.07);
     }
-    .contact-detail { text-align: center; }
-    .contact-detail .label {
-      font-size: 11px; font-weight: 600; letter-spacing: .15em;
-      text-transform: uppercase; color: rgba(255,255,255,.25); margin-bottom: 8px;
+    .ci-label {
+      font-size: 9px; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: rgba(255,255,255,.2);
+      margin-bottom: 8px;
     }
-    .contact-detail p { font-size: 14px; color: rgba(255,255,255,.6); }
-    .contact-detail a { color: rgba(255,255,255,.6); text-decoration: none; }
-    .contact-detail a:hover { color: var(--white); }
+    .ci-val { font-size: 14px; color: rgba(255,255,255,.55); }
+    .ci-val a { color: inherit; text-decoration: none; }
+    .ci-val a:hover { color: var(--off-white); }
 
-    /* ── FOOTER ─────────────────────────────────────── */
+    /* ── FOOTER ──────────────────────────────── */
     footer {
-      background: #050505; padding: 24px 40px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 12px;
+      background: #070707; padding: 20px 32px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
     }
-    footer p { font-size: 12px; color: rgba(255,255,255,.2); }
-    footer a { color: rgba(255,255,255,.2); text-decoration: none; }
+    footer p { font-size: 11px; color: rgba(255,255,255,.18); }
+    footer a { color: rgba(255,255,255,.18); text-decoration: none; }
     footer a:hover { color: rgba(255,255,255,.5); }
-
-    @media (max-width: 768px) { footer { padding: 20px; } }
   </style>
 </head>
 <body>
 
   <!-- NAV -->
-  <nav>
+  <nav id="nav">
     <a href="/" class="nav-logo">BUILD</a>
-    <ul class="nav-links">
-      <li><a href="#projets">Projets</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#atelier">L'Atelier</a></li>
-    </ul>
-    <a href="#contact" class="nav-contact">Contact</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#projets">Projets</a></li>
+        <li><a href="#about">Atelier</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="https://www.instagram.com/build.paris/" target="_blank" class="nav-insta">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+        @build.paris
+      </a>
+    </div>
   </nav>
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-grid"></div>
+    <div class="hero-image">
+      <img src="/img/proj-11.jpg" alt="BUILD — Adidas Originals x Solebox">
+    </div>
+    <div class="hero-overlay"></div>
     <div class="hero-content">
-      <span class="hero-tag">Atelier de construction · Pantin, France</span>
-      <h1 class="hero-title">On<br>construit<br><em>vos décors.</em></h1>
-      <p class="hero-sub">BUILD fabrique les décors de vos publicités, événements et scénographies — de la conception à la réception de chantier.</p>
-      <a href="#projets" class="hero-cta">
-        Voir les projets
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <div class="hero-left">
+        <span class="hero-tag">Production Design · Set Building Workshop · Pantin 93</span>
+        <h1>We<br>build<br><span>your sets.</span></h1>
+      </div>
+      <div class="hero-right">
+        <p>Fashion shows, advertising, events — we fabricate sets for the most demanding productions.</p>
+        <div class="scroll-hint">Scroll</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-inner">
+      <!-- repeated twice for seamless loop -->
+      <span class="ticker-item">Chaumet <span class="dot">·</span></span>
+      <span class="ticker-item">Adidas Originals x Solebox <span class="dot">·</span></span>
+      <span class="ticker-item">Centre Pompidou <span class="dot">·</span></span>
+      <span class="ticker-item">Ashi Studio <span class="dot">·</span></span>
+      <span class="ticker-item">Paloma Wool <span class="dot">·</span></span>
+      <span class="ticker-item">Too Faced <span class="dot">·</span></span>
+      <span class="ticker-item">Shygirl <span class="dot">·</span></span>
+      <span class="ticker-item">Production Design <span class="dot">·</span></span>
+      <span class="ticker-item">Set Building <span class="dot">·</span></span>
+      <span class="ticker-item">Pantin 93 <span class="dot">·</span></span>
+      <span class="ticker-item">Chaumet <span class="dot">·</span></span>
+      <span class="ticker-item">Adidas Originals x Solebox <span class="dot">·</span></span>
+      <span class="ticker-item">Centre Pompidou <span class="dot">·</span></span>
+      <span class="ticker-item">Ashi Studio <span class="dot">·</span></span>
+      <span class="ticker-item">Paloma Wool <span class="dot">·</span></span>
+      <span class="ticker-item">Too Faced <span class="dot">·</span></span>
+      <span class="ticker-item">Shygirl <span class="dot">·</span></span>
+      <span class="ticker-item">Production Design <span class="dot">·</span></span>
+      <span class="ticker-item">Set Building <span class="dot">·</span></span>
+      <span class="ticker-item">Pantin 93 <span class="dot">·</span></span>
+    </div>
+  </div>
+
+  <!-- PROJETS GRID -->
+  <section id="projets">
+    <div class="projets-head">
+      <h2>Selected work</h2>
+      <a href="https://www.instagram.com/build.paris/" target="_blank">All projects ↗</a>
+    </div>
+    <div class="grid">
+
+      <div class="grid-item">
+        <img src="/img/proj-11.jpg" alt="Adidas Originals x Solebox" loading="lazy">
+        <div class="grid-caption">
+          <div class="client">Adidas Originals × Solebox</div>
+          <h3>Set construction</h3>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="/img/proj-12.jpg" alt="Chaumet" loading="lazy">
+        <div class="grid-caption">
+          <div class="client">Chaumet</div>
+          <h3>Shooting set design</h3>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="/img/proj-4.jpg" alt="Too Faced" loading="lazy">
+        <div class="grid-caption">
+          <div class="client">Too Faced</div>
+          <h3>A Peachy Summer</h3>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="/img/proj-8.jpg" alt="Ashi Studio" loading="lazy">
+        <div class="grid-caption">
+          <div class="client">Ashi Studio</div>
+          <h3>SS26 Fashion Show</h3>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="/img/proj-5.jpg" alt="Paloma Wool" loading="lazy">
+        <div class="grid-caption">
+          <div class="client">Paloma Wool</div>
+          <h3>Pop-up Store Paris</h3>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="/img/proj-6.jpg" alt="Miss Kitoko" loading="lazy">
+        <div class="grid-caption">
+          <div class="client">Miss Kitoko</div>
+          <h3>SM4LL — Music video set</h3>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <img src="/img/proj-10.jpg" alt="Shygirl x Centre Pompidou" loading="lazy">
+        <div class="grid-caption">
+          <div class="client">Shygirl × Centre Pompidou</div>
+          <h3>ALIAS Exhibition</h3>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INSTAGRAM FEED -->
+  <section id="instagram">
+    <div class="insta-head">
+      <div class="insta-handle">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f2f0ec" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
         </svg>
+        <span>@build.paris</span>
+      </div>
+      <a href="https://www.instagram.com/build.paris/" target="_blank" class="insta-follow">Follow</a>
+    </div>
+    <div class="insta-grid">
+      <a href="https://www.instagram.com/p/DT0UFJHjNTt/" target="_blank" class="insta-thumb">
+        <img src="/img/proj-12.jpg" alt="Chaumet" loading="lazy">
+      </a>
+      <a href="https://www.instagram.com/p/DT0V4oADD9B/" target="_blank" class="insta-thumb">
+        <img src="/img/proj-11.jpg" alt="Adidas x Solebox" loading="lazy">
+      </a>
+      <a href="https://www.instagram.com/p/DT26HPCDI8V/" target="_blank" class="insta-thumb">
+        <img src="/img/proj-10.jpg" alt="Shygirl x Pompidou" loading="lazy">
+      </a>
+      <a href="https://www.instagram.com/p/DUY1h9aDK_4/" target="_blank" class="insta-thumb">
+        <img src="/img/proj-8.jpg" alt="Ashi Studio" loading="lazy">
+      </a>
+      <a href="https://www.instagram.com/p/DXEYKTojJnQ/" target="_blank" class="insta-thumb">
+        <img src="/img/proj-5.jpg" alt="Paloma Wool" loading="lazy">
+      </a>
+      <a href="https://www.instagram.com/p/DXOpqyLjH_p/" target="_blank" class="insta-thumb">
+        <img src="/img/proj-4.jpg" alt="Too Faced" loading="lazy">
       </a>
     </div>
-    <div class="hero-scroll">
-      <div class="hero-scroll-line"></div>
-      Scroll
-    </div>
   </section>
 
-  <!-- PROJETS -->
-  <section id="projets">
-    <div class="projets-header">
-      <div>
-        <p class="section-tag">Réalisations</p>
-        <h2 class="section-title">Projets récents</h2>
-      </div>
-      <p>De la maquette au chantier,<br>chaque décor est construit dans notre atelier à Pantin.</p>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-img">
+      <img src="/img/proj-3.jpg" alt="Atelier BUILD Pantin" loading="lazy">
     </div>
-    <div class="projets-grid">
-
-      <div class="projet-card">
-        <div class="projet-placeholder">Photo projet</div>
-        <div class="projet-info">
-          <h3>Tunnel Roland Garros</h3>
-          <p>Scénographie · 2026</p>
-        </div>
-      </div>
-
-      <div class="projet-card">
-        <div class="projet-placeholder">Photo projet</div>
-        <div class="projet-info">
-          <h3>Décor publicitaire</h3>
-          <p>Construction · 2025</p>
-        </div>
-      </div>
-
-      <div class="projet-card">
-        <div class="projet-placeholder">Photo projet</div>
-        <div class="projet-info">
-          <h3>Stand événementiel</h3>
-          <p>Scénographie · 2025</p>
-        </div>
-      </div>
-
-      <div class="projet-card">
-        <div class="projet-placeholder">Photo projet</div>
-        <div class="projet-info">
-          <h3>Set de tournage</h3>
-          <p>Construction · 2025</p>
-        </div>
-      </div>
-
-      <div class="projet-card">
-        <div class="projet-placeholder">Photo projet</div>
-        <div class="projet-info">
-          <h3>Scénographie retail</h3>
-          <p>Décor · 2025</p>
-        </div>
-      </div>
-
-      <div class="projet-card">
-        <div class="projet-placeholder">Photo projet</div>
-        <div class="projet-info">
-          <h3>Décor long format</h3>
-          <p>Construction · 2024</p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section id="services">
-    <p class="section-tag">Ce qu'on fait</p>
-    <h2 class="section-title">Services</h2>
-    <div class="services-grid">
-      <div class="service-item">
-        <div class="service-num">01</div>
-        <span class="service-icon">🔨</span>
-        <h3>Construction décors</h3>
-        <p>Fabrication sur-mesure de tous types de décors pour la publicité, le cinéma et l'événementiel. Bois, métal, résine — on maîtrise tous les matériaux.</p>
-      </div>
-      <div class="service-item">
-        <div class="service-num">02</div>
-        <span class="service-icon">📐</span>
-        <h3>Scénographie</h3>
-        <p>Conception et réalisation de scénographies pour vos événements, lancements de produits, pop-ups et installations artistiques.</p>
-      </div>
-      <div class="service-item">
-        <div class="service-num">03</div>
-        <span class="service-icon">🏗️</span>
-        <h3>Gestion de chantier</h3>
-        <p>Coordination complète : montage, onset, démontage. Une équipe dédiée sur chaque chantier, de la première vis à la réception finale.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ATELIER -->
-  <section id="atelier">
-    <div class="atelier-img-wrap">
-      <div class="atelier-placeholder">Photo atelier</div>
-    </div>
-    <div class="atelier-content">
-      <p class="section-tag">L'atelier</p>
-      <h2 class="section-title">1 200 m² à Pantin</h2>
-      <p>Notre atelier est équipé pour concevoir et fabriquer des décors de toutes tailles — du prototype au grand format. Menuiserie, peinture, structures métalliques, tout se fait en interne.</p>
-      <p>Chaque projet est suivi par un chef de chantier dédié, de la lecture des plans à la livraison sur set.</p>
-      <div class="atelier-stats">
-        <div>
-          <div class="stat-num">15+</div>
-          <div class="stat-label">Ans d'expérience</div>
-        </div>
-        <div>
-          <div class="stat-num">200+</div>
-          <div class="stat-label">Projets réalisés</div>
-        </div>
-        <div>
-          <div class="stat-num">1200</div>
-          <div class="stat-label">m² d'atelier</div>
-        </div>
-        <div>
-          <div class="stat-num">30+</div>
-          <div class="stat-label">Techniciens</div>
-        </div>
+    <div class="about-content">
+      <div class="about-tag">L'atelier</div>
+      <h2>Built in Pantin,<br>delivered anywhere.</h2>
+      <p>BUILD est un atelier de construction de décors basé à Pantin (93). On fabrique les sets de vos films pub, fashion shows, événements et installations artistiques.</p>
+      <p>Menuiserie, métal, résine, peinture — tout se fait en interne, du prototype au grand format. Chaque chantier a son chef de chantier dédié.</p>
+      <div class="about-stats">
+        <div><div class="stat-n">200+</div><div class="stat-l">Projets livrés</div></div>
+        <div><div class="stat-n">15+</div><div class="stat-l">Ans d'expérience</div></div>
+        <div><div class="stat-n">1200</div><div class="stat-l">m² d'atelier</div></div>
+        <div><div class="stat-n">30+</div><div class="stat-l">Techniciens</div></div>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
   <section id="contact">
-    <p class="section-tag">Travaillons ensemble</p>
-    <h2 class="section-title">Un projet en tête ?</h2>
-    <p class="contact-sub">Brief, devis, visite de l'atelier — on répond sous 24h.</p>
-    <div class="contact-actions">
-      <a href="mailto:build.paris@gmail.com" class="btn-primary">Nous contacter</a>
-      <a href="tel:+33634184642" class="btn-secondary">06 34 18 46 42</a>
+    <div class="contact-tag">Travaillons ensemble</div>
+    <h2>Un projet<br>en tête ?</h2>
+    <div class="contact-links">
+      <a href="mailto:build.paris@gmail.com" class="btn-white">Envoyer un brief</a>
+      <a href="tel:+33634184642" class="btn-outline">06 34 18 46 42</a>
     </div>
-    <div class="contact-details">
-      <div class="contact-detail">
-        <div class="label">Adresse</div>
-        <p>62 rue Denis Papin<br>93500 Pantin</p>
+    <div class="contact-info">
+      <div>
+        <div class="ci-label">Adresse</div>
+        <div class="ci-val">62 rue Denis Papin, 93500 Pantin</div>
       </div>
-      <div class="contact-detail">
-        <div class="label">Email</div>
-        <p><a href="mailto:build.paris@gmail.com">build.paris@gmail.com</a></p>
+      <div>
+        <div class="ci-label">Email</div>
+        <div class="ci-val"><a href="mailto:build.paris@gmail.com">build.paris@gmail.com</a></div>
       </div>
-      <div class="contact-detail">
-        <div class="label">Téléphone</div>
-        <p><a href="tel:+33634184642">06 34 18 46 42</a></p>
+      <div>
+        <div class="ci-label">Instagram</div>
+        <div class="ci-val"><a href="https://www.instagram.com/build.paris/" target="_blank">@build.paris</a></div>
       </div>
     </div>
   </section>
@@ -501,8 +570,16 @@
   <!-- FOOTER -->
   <footer>
     <p>© 2026 BUILD SAS — 62 rue Denis Papin, 93500 Pantin</p>
-    <p>Conçu par <a href="https://1618-films.tv">1.618</a></p>
+    <p>Site par <a href="https://1618-films.tv">1.618</a></p>
   </footer>
+
+  <script>
+    // Nav scroll behavior
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+  </script>
 
 </body>
 </html>
