@@ -2,12 +2,12 @@
 """
 Build index.html from index.template.html + data/posts.json.
 Replaces markers:
-  <!-- @PROJECT_GRID@ -->     → portfolio grid (top 7 posts)
-  <!-- @INSTAGRAM_FEED@ -->   → Instagram-style square grid (top 12 posts)
-  <!-- @CLIENT_TICKER@ -->    → marquee with client names
+  <!-- @PROJECT_ROWS@ -->     → editorial list rows (with cursor preview data)
+  <!-- @INSTAGRAM_FEED@ -->   → 12-thumb square grid
 """
 
 import json
+import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -16,17 +16,30 @@ OUTPUT = ROOT / "index.html"
 DATA = ROOT / "data" / "posts.json"
 
 
-def render_grid(posts):
-    """7-post hero grid with editorial layout."""
+def get_year(post):
+    ts = post.get("timestamp")
+    if ts:
+        try:
+            return str(datetime.datetime.fromtimestamp(ts).year)
+        except Exception:
+            pass
+    return "2026"
+
+
+def render_rows(posts):
+    """Editorial list — title, client, year. Hover loads preview image."""
     out = []
-    for p in posts[:7]:
-        out.append(f'''      <a href="{p["url"]}" target="_blank" class="grid-item">
-        <img src="{p["image"]}" alt="{p["client"]} — {p["title"]}" loading="lazy">
-        <div class="grid-caption">
-          <div class="client">{p["client"]}</div>
-          <h3>{p["title"]}</h3>
-        </div>
-      </a>''')
+    for p in posts:
+        title = p.get("title", "Set construction").replace('"', '&quot;')
+        client = p.get("client", "BUILD")
+        year = get_year(p)
+        out.append(f'''      <li class="row" data-preview="{p["image"]}">
+        <a href="{p["url"]}" target="_blank">
+          <span class="row-title">{title}</span>
+          <span class="row-meta">{client}</span>
+          <span class="row-year">{year}</span>
+        </a>
+      </li>''')
     return "\n".join(out)
 
 
@@ -38,22 +51,6 @@ def render_insta(posts):
         <img src="{p["image"]}" alt="{p["client"]}" loading="lazy">
       </a>''')
     return "\n".join(out)
-
-
-def render_ticker(posts):
-    """Client names ticker — unique, repeated twice for seamless loop."""
-    seen, clients = set(), []
-    for p in posts:
-        c = p["client"]
-        if c and c not in seen:
-            seen.add(c)
-            clients.append(c)
-
-    items = "".join(
-        f'<span class="ticker-item">{c} <span class="dot">·</span></span>'
-        for c in clients
-    )
-    return items + items  # double for loop
 
 
 def main():
@@ -69,9 +66,8 @@ def main():
     print(f"→ Building from {len(posts)} posts")
 
     html = TEMPLATE.read_text(encoding="utf-8")
-    html = html.replace("<!-- @PROJECT_GRID@ -->", render_grid(posts))
+    html = html.replace("<!-- @PROJECT_ROWS@ -->", render_rows(posts))
     html = html.replace("<!-- @INSTAGRAM_FEED@ -->", render_insta(posts))
-    html = html.replace("<!-- @CLIENT_TICKER@ -->", render_ticker(posts))
 
     OUTPUT.write_text(html, encoding="utf-8")
     print(f"✅ Wrote {OUTPUT.relative_to(ROOT)}")

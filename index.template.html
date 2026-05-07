@@ -4,576 +4,527 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BUILD — Production Design · Set Building Workshop</title>
-  <meta name="description" content="BUILD is a creative set-building workshop in Pantin (93). Production design for fashion shows, advertising, and events. Chaumet, Adidas, Centre Pompidou, Ashi Studio.">
+  <meta name="description" content="BUILD — creative set-building workshop in Pantin (93). 15+ years of expertise in fashion, art, and events.">
   <meta property="og:title" content="BUILD — Production Design · Set Building Workshop">
-  <meta property="og:description" content="Set building workshop based in Pantin (93). 15+ years of expertise in fashion, art, and events.">
+  <meta property="og:description" content="Set building workshop · Pantin 93">
   <meta property="og:url" content="https://build-paris.com">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black: #0c0c0c;
-      --off-white: #f2f0ec;
-      --grey: #8a8a8a;
-      --mid: #1a1a1a;
-      --purple: #8b5cf6;     /* BUILD brand purple */
-      --purple-soft: #a78bfa;
-      --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --black: #000;
+      --white: #fff;
+      --paper: #f5f1ea;       /* warm undertone for workshop section */
+      --grey: #9a9a9a;
+      --hairline: #eaeaea;
+      --font: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
     }
 
     html { scroll-behavior: smooth; }
     body {
       font-family: var(--font);
-      background: var(--off-white);
-      color: var(--black);
+      background: var(--white); color: var(--black);
+      font-size: 13px; line-height: 1.45; font-weight: 400;
       -webkit-font-smoothing: antialiased;
+      cursor: none;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── CUSTOM CURSOR ────────────────────────── */
+    .cursor {
+      position: fixed; top: 0; left: 0; pointer-events: none;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--black);
+      transform: translate3d(-50%, -50%, 0);
+      transition: width .25s ease, height .25s ease, background .25s ease;
+      mix-blend-mode: difference; z-index: 9999;
+    }
+    .cursor.hover {
+      width: 60px; height: 60px;
+      background: var(--white);
+    }
+    @media (hover: none) {
+      body { cursor: auto; }
+      .cursor { display: none; }
     }
 
-    /* ── NAV ─────────────────────────────────── */
+    /* ── NAV ──────────────────────────────────── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 32px; transition: background .3s, border-color .3s;
-    }
-    nav.scrolled {
-      background: rgba(242,240,236,.95); backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,0,0,.08);
+      padding: 22px 32px; height: 64px;
+      mix-blend-mode: difference; color: var(--white);
     }
     .nav-logo {
-      font-size: 15px; font-weight: 800; letter-spacing: .18em;
-      text-transform: uppercase; text-decoration: none; color: var(--off-white);
-      transition: color .3s;
+      font-size: 13px; font-weight: 400;
+      letter-spacing: .28em; text-transform: uppercase;
     }
-    nav.scrolled .nav-logo { color: var(--black); }
-    .nav-right { display: flex; align-items: center; gap: 28px; }
-    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links {
+      display: flex; gap: 36px; list-style: none;
+    }
     .nav-links a {
-      font-size: 11px; font-weight: 600; letter-spacing: .1em;
-      text-transform: uppercase; text-decoration: none;
-      color: rgba(255,255,255,.6); transition: color .3s;
+      font-size: 12px; letter-spacing: .12em;
+      text-transform: lowercase;
+      transition: opacity .2s;
     }
-    nav.scrolled .nav-links a { color: rgba(0,0,0,.5); }
-    .nav-links a:hover { color: var(--off-white) !important; }
-    nav.scrolled .nav-links a:hover { color: var(--purple) !important; }
-    .nav-insta {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 11px; font-weight: 600; letter-spacing: .08em;
-      text-decoration: none; color: rgba(255,255,255,.5);
-      transition: color .3s;
+    .nav-links a:hover { opacity: .5; }
+    .nav-right {
+      display: flex; gap: 24px; align-items: center;
+      font-size: 12px; letter-spacing: .12em;
     }
-    nav.scrolled .nav-insta { color: rgba(0,0,0,.4); }
-    .nav-insta:hover { color: var(--purple) !important; }
+    .nav-right a { text-transform: lowercase; transition: opacity .2s; }
+    .nav-right a:hover { opacity: .5; }
 
     @media (max-width: 768px) {
-      nav { padding: 14px 20px; }
+      nav { padding: 18px 20px; }
       .nav-links { display: none; }
     }
 
-    /* ── HERO ────────────────────────────────── */
+    /* ── HERO ─────────────────────────────────── */
     #hero {
       height: 100vh; position: relative; overflow: hidden;
-      display: flex; align-items: flex-end;
-    }
-    .hero-image { position: absolute; inset: 0; background: var(--black); }
-    .hero-image img {
-      width: 100%; height: 100%; object-fit: cover;
-      opacity: .75; display: block;
-    }
-    .hero-overlay {
-      position: absolute; inset: 0;
-      background:
-        linear-gradient(135deg, rgba(139,92,246,.15) 0%, transparent 50%),
-        linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.1) 50%, transparent 100%);
-    }
-    .hero-content {
-      position: relative; z-index: 2;
-      padding: 0 48px 56px; width: 100%;
-      display: flex; align-items: flex-end; justify-content: space-between;
-    }
-    .hero-tag {
-      display: block; font-size: 10px; font-weight: 700;
-      letter-spacing: .22em; text-transform: uppercase;
-      color: var(--purple-soft); margin-bottom: 14px;
-    }
-    h1 {
-      font-size: clamp(48px, 8vw, 108px);
-      font-weight: 800; line-height: .92; letter-spacing: -.03em;
-      color: var(--off-white);
-    }
-    h1 span { display: block; color: rgba(255,255,255,.22); }
-    .hero-right {
-      display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
-      padding-bottom: 6px;
-    }
-    .hero-right p {
-      font-size: 13px; color: rgba(255,255,255,.45);
-      text-align: right; line-height: 1.6; max-width: 240px;
-    }
-    .scroll-hint {
-      display: flex; align-items: center; gap: 8px; margin-top: 16px;
-      font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
-      color: rgba(255,255,255,.2);
-    }
-    .scroll-hint::before {
-      content: ''; display: block; width: 32px; height: 1px;
-      background: rgba(255,255,255,.2);
-    }
-
-    @media (max-width: 768px) {
-      .hero-content { padding: 0 20px 40px; flex-direction: column; align-items: flex-start; gap: 20px; }
-      .hero-right { align-items: flex-start; }
-      .hero-right p { text-align: left; }
-    }
-
-    /* ── TICKER ──────────────────────────────── */
-    .ticker {
-      background: var(--purple); color: var(--black);
-      padding: 12px 0; overflow: hidden; white-space: nowrap;
-      border-top: 1px solid rgba(0,0,0,.1);
-      border-bottom: 1px solid rgba(0,0,0,.1);
-    }
-    .ticker-inner {
-      display: inline-flex; gap: 0;
-      animation: ticker 32s linear infinite;
-    }
-    .ticker-item {
-      display: inline-flex; align-items: center; gap: 18px;
-      padding: 0 22px;
-      font-size: 11px; font-weight: 800; letter-spacing: .14em;
-      text-transform: uppercase; color: rgba(0,0,0,.85);
-    }
-    .ticker-item .dot { color: rgba(0,0,0,.3); }
-    @keyframes ticker {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-
-    /* ── MANIFESTO ───────────────────────────── */
-    #manifesto {
-      background: var(--off-white);
-      padding: 110px 32px 90px;
-      border-bottom: 1px solid rgba(0,0,0,.06);
-    }
-    .manifesto-inner {
-      max-width: 880px; margin: 0 auto;
-      text-align: center;
-    }
-    .manifesto-tag {
-      display: inline-block; font-size: 10px; font-weight: 700;
-      letter-spacing: .25em; text-transform: uppercase;
-      color: var(--purple); margin-bottom: 36px;
-      padding: 6px 14px; border: 1px solid var(--purple); border-radius: 2px;
-    }
-    .manifesto-text {
-      font-size: clamp(18px, 2.2vw, 26px); font-weight: 400;
-      line-height: 1.55; letter-spacing: -.005em;
-      color: var(--black); margin-bottom: 22px;
-    }
-    .manifesto-text:last-child { margin-bottom: 0; color: #444; }
-    .manifesto-text strong {
-      font-weight: 800; letter-spacing: .04em;
-    }
-    .manifesto-text em {
-      font-style: italic; color: var(--purple);
-      font-weight: 500;
-    }
-
-    @media (max-width: 768px) {
-      #manifesto { padding: 72px 24px 60px; }
-    }
-
-    /* ── PROJETS GRID ────────────────────────── */
-    #projets { padding: 80px 0 0; background: var(--off-white); }
-    .projets-head {
-      padding: 0 32px 48px;
-      display: flex; align-items: baseline; justify-content: space-between;
-    }
-    .projets-head h2 {
-      font-size: clamp(28px, 4vw, 44px); font-weight: 800;
-      letter-spacing: -.025em;
-    }
-    .projets-head a {
-      font-size: 11px; font-weight: 700; letter-spacing: .1em;
-      text-transform: uppercase; text-decoration: none;
-      color: var(--grey); border-bottom: 1px solid currentColor;
-      padding-bottom: 2px; transition: color .2s;
-    }
-    .projets-head a:hover { color: var(--purple); }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3px;
-    }
-    .grid-item {
-      position: relative; overflow: hidden;
-      background: #d8d6d0; cursor: pointer;
-      text-decoration: none; color: inherit; display: block;
-    }
-    .grid-item:nth-child(1) { grid-column: span 2; aspect-ratio: 16/9; }
-    .grid-item:nth-child(2) { grid-column: span 1; aspect-ratio: 9/16; grid-row: span 2; }
-    .grid-item:nth-child(3) { grid-column: span 1; aspect-ratio: 4/3; }
-    .grid-item:nth-child(4) { grid-column: span 1; aspect-ratio: 4/3; }
-    .grid-item:nth-child(5) { grid-column: span 1; aspect-ratio: 1; }
-    .grid-item:nth-child(6) { grid-column: span 1; aspect-ratio: 1; }
-    .grid-item:nth-child(7) { grid-column: span 1; aspect-ratio: 1; }
-
-    .grid-item img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform .5s cubic-bezier(.25,.46,.45,.94);
-    }
-    .grid-item:hover img { transform: scale(1.05); }
-    .grid-item::after {
-      content: ''; position: absolute; inset: 0;
-      background: var(--black); opacity: 0;
-      transition: opacity .3s;
-    }
-    .grid-item:hover::after { opacity: .45; }
-
-    .grid-caption {
-      position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
-      padding: 20px 20px 18px;
-      background: linear-gradient(to top, rgba(0,0,0,.7), transparent);
-      opacity: 0; transform: translateY(6px);
-      transition: opacity .3s, transform .3s;
-    }
-    .grid-item:hover .grid-caption { opacity: 1; transform: translateY(0); }
-    .grid-caption .client {
-      font-size: 10px; font-weight: 700; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--purple-soft); margin-bottom: 4px;
-    }
-    .grid-caption h3 {
-      font-size: 16px; font-weight: 700; color: var(--off-white);
-      letter-spacing: -.01em; line-height: 1.2;
-    }
-
-    @media (max-width: 768px) {
-      .grid { grid-template-columns: repeat(2, 1fr); gap: 2px; }
-      .grid-item:nth-child(n) { grid-column: span 1; grid-row: span 1; aspect-ratio: 1; }
-      .grid-item:nth-child(1) { grid-column: span 2; aspect-ratio: 16/9; }
-      .grid-caption { opacity: 1; transform: none; }
-    }
-
-    /* ── INSTAGRAM FEED ──────────────────────── */
-    #instagram {
-      padding: 80px 32px;
       background: var(--black);
     }
-    .insta-head {
-      display: flex; align-items: center; justify-content: space-between;
+    #hero img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: .85;
+    }
+    .hero-caption {
+      position: absolute; bottom: 32px; left: 32px;
+      font-size: 11px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--white);
+      opacity: .75;
+    }
+    .hero-caption .dot { margin: 0 10px; opacity: .5; }
+    .hero-caption b { font-weight: 500; }
+
+    .hero-meta {
+      position: absolute; bottom: 32px; right: 32px;
+      font-size: 10px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--white);
+      opacity: .55; text-align: right;
+    }
+
+    @media (max-width: 768px) {
+      .hero-caption { left: 20px; bottom: 24px; font-size: 10px; }
+      .hero-meta { right: 20px; bottom: 24px; font-size: 9px; }
+    }
+
+    /* ── MANIFESTO ────────────────────────────── */
+    #manifesto {
+      padding: 140px 32px;
+      max-width: 1680px; margin: 0 auto;
+    }
+    .manifesto-grid {
+      display: grid; grid-template-columns: 1fr 6fr;
+      gap: 32px; align-items: start;
+    }
+    .manifesto-label {
+      font-size: 11px; letter-spacing: .25em;
+      text-transform: uppercase; color: var(--grey);
+      padding-top: 8px;
+    }
+    .manifesto-text {
+      font-size: clamp(16px, 1.5vw, 20px);
+      line-height: 1.55; font-weight: 400;
+      max-width: 720px;
+    }
+    .manifesto-text + .manifesto-text {
+      margin-top: 22px; color: #555;
+    }
+    .manifesto-text b { font-weight: 500; letter-spacing: .04em; }
+
+    @media (max-width: 768px) {
+      #manifesto { padding: 80px 20px; }
+      .manifesto-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    /* ── PROJECTS LIST ────────────────────────── */
+    #projects {
+      padding: 60px 32px 120px;
+      max-width: 1680px; margin: 0 auto;
+      position: relative;
+    }
+    .section-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 40px;
+      padding-bottom: 18px; border-bottom: 1px solid var(--hairline);
+    }
+    .section-label {
+      font-size: 11px; letter-spacing: .25em;
+      text-transform: uppercase;
+    }
+    .section-meta {
+      font-size: 11px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--grey);
+    }
+    .section-meta a { transition: color .2s; }
+    .section-meta a:hover { color: var(--black); }
+
+    .row-list { list-style: none; }
+    .row {
+      display: grid; grid-template-columns: 6fr 4fr 1fr;
+      gap: 32px; align-items: center;
+      padding: 22px 4px; border-bottom: 1px solid var(--hairline);
+      transition: opacity .35s ease;
+    }
+    .row a { display: contents; }
+    #projects .row-list:hover .row { opacity: .25; }
+    #projects .row-list:hover .row:hover { opacity: 1; }
+
+    .row-title {
+      font-size: clamp(16px, 1.6vw, 22px);
+      font-weight: 400; letter-spacing: -.005em;
+    }
+    .row-meta {
+      font-size: 11px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--grey);
+    }
+    .row-year {
+      font-size: 11px; letter-spacing: .15em;
+      color: var(--grey); text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Hover preview that follows cursor */
+    #row-preview {
+      position: fixed; pointer-events: none;
+      width: 360px; height: 220px;
+      top: 0; left: 0;
+      transform: translate3d(-50%, -50%, 0) scale(.95);
+      opacity: 0; transition: opacity .25s, transform .25s;
+      z-index: 50; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+    #row-preview.visible { opacity: 1; transform: translate3d(-50%, -50%, 0) scale(1); }
+    #row-preview img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+      #projects { padding: 40px 20px 80px; }
+      .row { grid-template-columns: 1fr auto; gap: 16px; padding: 18px 0; }
+      .row-meta { grid-column: 1; font-size: 10px; }
+      .row-year { font-size: 10px; }
+      #row-preview { display: none; }
+    }
+
+    /* ── WORKSHOP SECTION ─────────────────────── */
+    #workshop {
+      background: var(--paper);
+      padding: 120px 32px;
+    }
+    .workshop-inner {
+      max-width: 1680px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .workshop-image {
+      aspect-ratio: 4/5; overflow: hidden;
+    }
+    .workshop-image img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(.15);
+    }
+    .workshop-text .label {
+      font-size: 11px; letter-spacing: .25em;
+      text-transform: uppercase; color: var(--grey);
       margin-bottom: 32px;
     }
-    .insta-handle {
-      display: flex; align-items: center; gap: 10px;
+    .workshop-text h2 {
+      font-size: clamp(28px, 3vw, 44px); font-weight: 400;
+      line-height: 1.1; letter-spacing: -.02em;
+      margin-bottom: 28px; max-width: 460px;
     }
-    .insta-handle svg { color: var(--purple-soft); }
-    .insta-handle span {
-      font-size: 14px; font-weight: 700; letter-spacing: .04em;
-      color: var(--off-white);
+    .workshop-text p {
+      font-size: 14px; line-height: 1.7; color: #444;
+      margin-bottom: 14px; max-width: 460px;
     }
-    .insta-live {
-      display: inline-block; margin-left: 10px;
-      font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
-      color: var(--purple-soft); padding: 3px 8px;
-      border: 1px solid var(--purple);
-      border-radius: 12px;
+    .workshop-stats {
+      margin-top: 48px; padding-top: 32px;
+      border-top: 1px solid rgba(0,0,0,.1);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+      max-width: 460px;
     }
-    .insta-live::before {
-      content: ''; display: inline-block; width: 5px; height: 5px;
-      background: var(--purple-soft); border-radius: 50%;
-      margin-right: 5px; vertical-align: middle;
-      animation: pulse 1.6s ease-in-out infinite;
+    .workshop-stats .n {
+      font-size: 32px; font-weight: 400;
+      letter-spacing: -.02em; line-height: 1;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: .3; }
+    .workshop-stats .l {
+      font-size: 10px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--grey);
+      margin-top: 6px;
     }
-    .insta-follow {
-      font-size: 11px; font-weight: 700; letter-spacing: .1em;
-      text-transform: uppercase; text-decoration: none;
-      color: var(--off-white); border: 1.5px solid var(--purple);
-      padding: 8px 18px; border-radius: 2px;
-      transition: background .2s;
-    }
-    .insta-follow:hover { background: var(--purple); }
-
-    .insta-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 3px;
-    }
-    .insta-thumb {
-      aspect-ratio: 1; overflow: hidden; background: var(--mid);
-      text-decoration: none; display: block; position: relative;
-    }
-    .insta-thumb img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform .4s, opacity .3s;
-    }
-    .insta-thumb:hover img { transform: scale(1.06); opacity: .7; }
-
-    @media (max-width: 900px) { .insta-grid { grid-template-columns: repeat(3, 1fr); } }
-
-    /* ── ABOUT ───────────────────────────────── */
-    #about {
-      display: grid; grid-template-columns: 1fr 1fr;
-      background: var(--off-white);
-    }
-    .about-img {
-      aspect-ratio: 1; overflow: hidden; background: #d8d6d0; position: relative;
-    }
-    .about-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .about-img::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(139,92,246,.2) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .about-content {
-      padding: 72px 56px; display: flex; flex-direction: column; justify-content: center;
-    }
-    .about-tag {
-      font-size: 10px; font-weight: 700; letter-spacing: .2em;
-      text-transform: uppercase; color: var(--purple); margin-bottom: 20px;
-    }
-    .about-content h2 {
-      font-size: clamp(28px, 3.5vw, 44px); font-weight: 800;
-      letter-spacing: -.025em; line-height: 1.1; margin-bottom: 24px;
-    }
-    .about-content p {
-      font-size: 15px; color: #555; line-height: 1.8; margin-bottom: 12px;
-    }
-    .services-list {
-      display: flex; gap: 8px; margin-top: 28px; flex-wrap: wrap;
-    }
-    .service-pill {
-      font-size: 11px; font-weight: 700; letter-spacing: .1em;
-      text-transform: uppercase; padding: 8px 14px;
-      background: var(--black); color: var(--off-white);
-      border-radius: 2px;
-    }
-    .service-pill:nth-child(2) { background: var(--purple); }
-    .about-stats {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
-      margin-top: 40px; padding-top: 40px;
-      border-top: 1px solid rgba(0,0,0,.08);
-    }
-    .stat-n { font-size: 36px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
-    .stat-l { font-size: 12px; color: var(--grey); margin-top: 4px; letter-spacing: .02em; }
 
     @media (max-width: 900px) {
-      #about { grid-template-columns: 1fr; }
-      .about-content { padding: 48px 24px; }
+      #workshop { padding: 80px 20px; }
+      .workshop-inner { grid-template-columns: 1fr; gap: 40px; }
     }
 
-    /* ── CONTACT ─────────────────────────────── */
+    /* ── INSTAGRAM ────────────────────────────── */
+    #instagram { padding: 100px 32px; max-width: 1680px; margin: 0 auto; }
+    .insta-handle {
+      display: flex; align-items: center; gap: 14px;
+      font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
+    }
+    .insta-handle .live::before {
+      content: ''; display: inline-block; width: 5px; height: 5px;
+      background: var(--black); border-radius: 50%;
+      margin-right: 6px; vertical-align: middle;
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    .insta-handle .live { color: var(--grey); font-size: 9px; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+
+    .insta-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px;
+    }
+    .insta-thumb {
+      aspect-ratio: 1; overflow: hidden; background: #d8d6d0;
+      transition: opacity .3s;
+    }
+    .insta-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .5s;
+    }
+    .insta-thumb:hover img { transform: scale(1.04); }
+    .insta-grid:hover .insta-thumb { opacity: .5; }
+    .insta-grid:hover .insta-thumb:hover { opacity: 1; }
+
+    @media (max-width: 900px) { .insta-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px) { #instagram { padding: 60px 20px; } }
+
+    /* ── CONTACT / FOOTER ─────────────────────── */
     #contact {
-      background: var(--black); color: var(--off-white);
-      padding: 100px 32px; text-align: center; position: relative; overflow: hidden;
+      background: var(--black); color: var(--white);
+      padding: 100px 32px 32px;
     }
-    #contact::before {
-      content: ''; position: absolute; inset: -50% -50% auto auto;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, var(--purple) 0%, transparent 70%);
-      opacity: .15; pointer-events: none;
+    .contact-inner { max-width: 1680px; margin: 0 auto; }
+    .contact-head {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; padding-bottom: 80px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
     }
-    .contact-tag {
-      font-size: 10px; font-weight: 700; letter-spacing: .2em;
-      text-transform: uppercase; color: var(--purple-soft);
-      margin-bottom: 20px; position: relative;
+    .contact-head h2 {
+      font-size: clamp(40px, 5.5vw, 80px);
+      font-weight: 400; letter-spacing: -.02em; line-height: .95;
     }
-    #contact h2 {
-      font-size: clamp(36px, 6vw, 72px); font-weight: 800;
-      letter-spacing: -.03em; line-height: .95;
-      color: var(--off-white); margin-bottom: 48px; position: relative;
+    .contact-mail {
+      align-self: end;
     }
-    .contact-links {
-      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative;
+    .contact-mail a {
+      font-size: clamp(20px, 2vw, 28px);
+      font-weight: 400; letter-spacing: -.005em;
+      border-bottom: 1px solid rgba(255,255,255,.3);
+      padding-bottom: 6px; transition: border-color .25s;
     }
-    .btn-white {
-      display: inline-block; background: var(--off-white); color: var(--black);
-      font-size: 12px; font-weight: 800; letter-spacing: .12em;
-      text-transform: uppercase; text-decoration: none;
-      padding: 14px 32px; border-radius: 2px; transition: all .2s;
+    .contact-mail a:hover { border-color: var(--white); }
+    .contact-mail .label {
+      display: block; font-size: 10px; letter-spacing: .25em;
+      text-transform: uppercase; color: var(--grey); margin-bottom: 14px;
     }
-    .btn-white:hover { background: var(--purple); color: var(--off-white); }
-    .btn-outline {
-      display: inline-block;
-      border: 1.5px solid rgba(255,255,255,.2); color: rgba(255,255,255,.55);
-      font-size: 12px; font-weight: 700; letter-spacing: .12em;
-      text-transform: uppercase; text-decoration: none;
-      padding: 14px 32px; border-radius: 2px; transition: all .2s;
-    }
-    .btn-outline:hover { border-color: var(--purple); color: var(--off-white); }
-    .contact-info {
-      display: flex; gap: 60px; justify-content: center; flex-wrap: wrap;
-      margin-top: 80px; padding-top: 60px;
-      border-top: 1px solid rgba(255,255,255,.07); position: relative;
-    }
-    .ci-label {
-      font-size: 9px; font-weight: 700; letter-spacing: .2em;
-      text-transform: uppercase; color: var(--purple-soft);
-      margin-bottom: 8px; opacity: .7;
-    }
-    .ci-val { font-size: 14px; color: rgba(255,255,255,.55); }
-    .ci-val a { color: inherit; text-decoration: none; }
-    .ci-val a:hover { color: var(--purple-soft); }
 
-    /* ── FOOTER ──────────────────────────────── */
-    footer {
-      background: #070707; padding: 20px 32px;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    .contact-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 32px; padding: 60px 0 80px;
     }
-    footer p { font-size: 11px; color: rgba(255,255,255,.18); }
-    footer a { color: rgba(255,255,255,.18); text-decoration: none; }
-    footer a:hover { color: var(--purple-soft); }
+    .contact-col .label {
+      font-size: 10px; letter-spacing: .25em;
+      text-transform: uppercase; color: var(--grey);
+      margin-bottom: 16px;
+    }
+    .contact-col p, .contact-col a {
+      display: block; font-size: 13px;
+      color: rgba(255,255,255,.85); line-height: 1.6;
+    }
+    .contact-col a:hover { opacity: .6; }
+
+    .contact-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 24px; border-top: 1px solid rgba(255,255,255,.07);
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--grey);
+    }
+    .contact-bottom a:hover { color: var(--white); }
+
+    @media (max-width: 900px) {
+      #contact { padding: 60px 20px 24px; }
+      .contact-head { grid-template-columns: 1fr; gap: 32px; padding-bottom: 48px; }
+      .contact-grid { grid-template-columns: repeat(2, 1fr); padding: 40px 0 48px; }
+      .contact-bottom { flex-direction: column; gap: 12px; align-items: flex-start; }
+    }
   </style>
 </head>
 <body>
 
+  <div class="cursor" id="cursor"></div>
+
   <!-- NAV -->
-  <nav id="nav">
-    <a href="/" class="nav-logo">BUILD</a>
+  <nav>
+    <a href="/" class="nav-logo">B U I L D</a>
+    <ul class="nav-links">
+      <li><a href="#projects">work</a></li>
+      <li><a href="#workshop">workshop</a></li>
+      <li><a href="#instagram">instagram</a></li>
+    </ul>
     <div class="nav-right">
-      <ul class="nav-links">
-        <li><a href="#projets">Projets</a></li>
-        <li><a href="#about">Atelier</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <a href="https://www.instagram.com/build.paris/" target="_blank" class="nav-insta">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-        </svg>
-        @build.paris
-      </a>
+      <a href="https://www.instagram.com/build.paris/" target="_blank">@build.paris</a>
+      <a href="#contact">contact</a>
     </div>
   </nav>
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-image">
-      <img src="/img/ig-DT0V4oADD9B.jpg" alt="BUILD — Adidas Originals × Solebox">
+    <img src="/img/ig-DT0V4oADD9B.jpg" alt="BUILD — Adidas Originals × Solebox">
+    <div class="hero-caption">
+      <b>Adidas Originals × Solebox</b><span class="dot">·</span>Set construction
     </div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <div class="hero-left">
-        <span class="hero-tag">Production Design · Set Building Workshop · Pantin 93</span>
-        <h1>We<br>build<br><span>your sets.</span></h1>
-      </div>
-      <div class="hero-right">
-        <p>Set design, advertising, events — we fabricate sets for the most demanding productions.</p>
-        <div class="scroll-hint">Scroll</div>
-      </div>
+    <div class="hero-meta">
+      Production design<br>Set building workshop<br>Pantin 93
     </div>
   </section>
-
-  <!-- TICKER (clients) -->
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker-inner">
-      <!-- @CLIENT_TICKER@ -->
-    </div>
-  </div>
 
   <!-- MANIFESTO -->
   <section id="manifesto">
-    <div class="manifesto-inner">
-      <div class="manifesto-tag">Manifesto</div>
-      <p class="manifesto-text">
-        <strong>BUILD</strong> is a creative set-building workshop, founded by a team of experienced builders, decorators, and set designers with over <em>15 years of expertise</em> in fashion, art, and events. Based in Paris, we cater to international clients, delivering tailor-made projects that consistently exceed expectations.
-      </p>
-      <p class="manifesto-text">
-        Every creation at BUILD is an opportunity to craft something exceptional <em>&mdash; closely aligned with our clients' vision.</em>
-      </p>
-    </div>
-  </section>
-
-  <!-- PROJETS -->
-  <section id="projets">
-    <div class="projets-head">
-      <h2>Selected work</h2>
-      <a href="https://www.instagram.com/build.paris/" target="_blank">All projects ↗</a>
-    </div>
-    <div class="grid">
-<!-- @PROJECT_GRID@ -->
-    </div>
-  </section>
-
-  <!-- INSTAGRAM FEED -->
-  <section id="instagram">
-    <div class="insta-head">
-      <div class="insta-handle">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-        </svg>
-        <span>@build.paris</span>
-        <span class="insta-live">Live</span>
+    <div class="manifesto-grid">
+      <div class="manifesto-label">Manifesto</div>
+      <div>
+        <p class="manifesto-text">
+          <b>BUILD</b> is a creative set-building workshop, founded by a team of experienced builders, decorators, and set designers with over 15 years of expertise in fashion, art, and events.
+        </p>
+        <p class="manifesto-text">
+          Based in Paris, we cater to international clients, delivering tailor-made projects that consistently exceed expectations. Every creation at BUILD is an opportunity to craft something exceptional and closely aligned with our clients' vision.
+        </p>
       </div>
-      <a href="https://www.instagram.com/build.paris/" target="_blank" class="insta-follow">Follow</a>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-head">
+      <div class="section-label">Selected Work</div>
+      <div class="section-meta">
+        <a href="https://www.instagram.com/build.paris/" target="_blank">View all on Instagram ↗</a>
+      </div>
+    </div>
+    <ul class="row-list" id="row-list">
+<!-- @PROJECT_ROWS@ -->
+    </ul>
+    <div id="row-preview"><img id="row-preview-img" src="" alt=""></div>
+  </section>
+
+  <!-- WORKSHOP -->
+  <section id="workshop">
+    <div class="workshop-inner">
+      <div class="workshop-image">
+        <img src="/img/ig-DXOpqyLjH_p.jpg" alt="Atelier BUILD Pantin">
+      </div>
+      <div class="workshop-text">
+        <div class="label">Workshop · Pantin 93</div>
+        <h2>Built in Pantin, delivered anywhere.</h2>
+        <p>BUILD est un atelier de construction de décors, basé à Pantin (93). Menuiserie, métal, résine, peinture — tout se fait en interne, du prototype au grand format.</p>
+        <p>Chaque chantier a son chef de chantier dédié, de la lecture des plans à la livraison sur set.</p>
+        <div class="workshop-stats">
+          <div><div class="n">15+</div><div class="l">Years</div></div>
+          <div><div class="n">200+</div><div class="l">Projects</div></div>
+          <div><div class="n">1200</div><div class="l">m² workshop</div></div>
+          <div><div class="n">30+</div><div class="l">Crew</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTAGRAM -->
+  <section id="instagram">
+    <div class="section-head">
+      <div class="insta-handle">
+        <span>@build.paris</span>
+        <span class="live">Live</span>
+      </div>
+      <div class="section-meta">
+        <a href="https://www.instagram.com/build.paris/" target="_blank">Follow ↗</a>
+      </div>
     </div>
     <div class="insta-grid">
 <!-- @INSTAGRAM_FEED@ -->
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="about-img">
-      <img src="/img/ig-DXOpqyLjH_p.jpg" alt="Atelier BUILD Pantin" loading="lazy">
-    </div>
-    <div class="about-content">
-      <div class="about-tag">L'atelier — Pantin 93</div>
-      <h2>Built in Pantin,<br>delivered anywhere.</h2>
-      <p>BUILD est un atelier de construction de décors fondé par une équipe de constructeurs, décorateurs et set designers avec plus de 15 ans d'expertise dans la mode, l'art et l'événementiel.</p>
-      <p>Basés à Paris, on travaille pour des clients internationaux — projets sur-mesure du prototype au grand format.</p>
-      <div class="services-list">
-        <span class="service-pill">Set Design</span>
-        <span class="service-pill">Advertising</span>
-        <span class="service-pill">Event</span>
-      </div>
-      <div class="about-stats">
-        <div><div class="stat-n">15+</div><div class="stat-l">Ans d'expérience</div></div>
-        <div><div class="stat-n">200+</div><div class="stat-l">Projets livrés</div></div>
-        <div><div class="stat-n">1200</div><div class="stat-l">m² d'atelier</div></div>
-        <div><div class="stat-n">30+</div><div class="stat-l">Techniciens</div></div>
-      </div>
-    </div>
-  </section>
-
   <!-- CONTACT -->
   <section id="contact">
-    <div class="contact-tag">Travaillons ensemble</div>
-    <h2>Un projet<br>en tête ?</h2>
-    <div class="contact-links">
-      <a href="mailto:build.paris@gmail.com" class="btn-white">Envoyer un brief</a>
-      <a href="tel:+33634184642" class="btn-outline">06 34 18 46 42</a>
-    </div>
-    <div class="contact-info">
-      <div>
-        <div class="ci-label">Adresse</div>
-        <div class="ci-val">62 rue Denis Papin · 93500 Pantin</div>
+    <div class="contact-inner">
+      <div class="contact-head">
+        <h2>Let's<br>build it.</h2>
+        <div class="contact-mail">
+          <span class="label">Brief / quote</span>
+          <a href="mailto:build.paris@gmail.com">build.paris@gmail.com</a>
+        </div>
       </div>
-      <div>
-        <div class="ci-label">Email</div>
-        <div class="ci-val"><a href="mailto:build.paris@gmail.com">build.paris@gmail.com</a></div>
+
+      <div class="contact-grid">
+        <div class="contact-col">
+          <div class="label">Workshop</div>
+          <p>62 rue Denis Papin<br>93500 Pantin<br>France</p>
+        </div>
+        <div class="contact-col">
+          <div class="label">Phone</div>
+          <a href="tel:+33634184642">+33 6 34 18 46 42</a>
+        </div>
+        <div class="contact-col">
+          <div class="label">Email</div>
+          <a href="mailto:build.paris@gmail.com">build.paris@gmail.com</a>
+        </div>
+        <div class="contact-col">
+          <div class="label">Follow</div>
+          <a href="https://www.instagram.com/build.paris/" target="_blank">@build.paris</a>
+        </div>
       </div>
-      <div>
-        <div class="ci-label">Instagram</div>
-        <div class="ci-val"><a href="https://www.instagram.com/build.paris/" target="_blank">@build.paris</a></div>
+
+      <div class="contact-bottom">
+        <div>© 2026 BUILD SAS · 62 RUE DENIS PAPIN 93500 PANTIN</div>
+        <div>Site by <a href="https://1618-films.tv">1.618</a></div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>© 2026 BUILD SAS — 62 rue Denis Papin, 93500 Pantin</p>
-    <p>Site par <a href="https://1618-films.tv">1.618</a></p>
-  </footer>
-
   <script>
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 60);
-    }, { passive: true });
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    let cx = 0, cy = 0, tx = 0, ty = 0;
+    document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+    function tick() {
+      cx += (tx - cx) * 0.18;
+      cy += (ty - cy) * 0.18;
+      cursor.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%)`;
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    // Cursor hover state on interactive elements
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // Project row preview follows cursor
+    const preview = document.getElementById('row-preview');
+    const previewImg = document.getElementById('row-preview-img');
+    document.querySelectorAll('#row-list .row').forEach(row => {
+      const img = row.dataset.preview;
+      if (!img) return;
+      row.addEventListener('mouseenter', () => {
+        previewImg.src = img;
+        preview.classList.add('visible');
+      });
+      row.addEventListener('mouseleave', () => {
+        preview.classList.remove('visible');
+      });
+    });
+    document.addEventListener('mousemove', e => {
+      preview.style.left = (e.clientX + 30) + 'px';
+      preview.style.top  = e.clientY + 'px';
+    });
   </script>
 
 </body>
