@@ -1,0 +1,47 @@
+name: Sync Instagram
+
+on:
+  schedule:
+    # Toutes les 6h — build-paris.com reste à jour
+    - cron: '0 */6 * * *'
+  workflow_dispatch:    # bouton manuel "Run workflow"
+  push:
+    paths:
+      - 'index.template.html'
+      - 'scripts/**'
+      - '.github/workflows/instagram-sync.yml'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Sync Instagram → posts.json + img/
+        run: python3 scripts/sync-instagram.py
+
+      - name: Build index.html
+        run: python3 scripts/build-site.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "build-bot"
+          git config user.email "noreply@build-paris.com"
+          git add data/posts.json img/ index.html
+          if git diff --staged --quiet; then
+            echo "✅ No changes — Instagram is up to date."
+          else
+            COUNT=$(git diff --staged --name-only | grep -c "^img/" || echo 0)
+            git commit -m "auto: sync Instagram (${COUNT} new image(s))"
+            git push
+            echo "🚀 Pushed updates to main → Cloudflare Pages will redeploy."
+          fi
