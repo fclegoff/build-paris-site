@@ -149,6 +149,40 @@
       to   { transform: translateX(-50%); }
     }
 
+    /* ── MANIFESTO ───────────────────────────── */
+    #manifesto {
+      background: var(--off-white);
+      padding: 110px 32px 90px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .manifesto-inner {
+      max-width: 880px; margin: 0 auto;
+      text-align: center;
+    }
+    .manifesto-tag {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--purple); margin-bottom: 36px;
+      padding: 6px 14px; border: 1px solid var(--purple); border-radius: 2px;
+    }
+    .manifesto-text {
+      font-size: clamp(18px, 2.2vw, 26px); font-weight: 400;
+      line-height: 1.55; letter-spacing: -.005em;
+      color: var(--black); margin-bottom: 22px;
+    }
+    .manifesto-text:last-child { margin-bottom: 0; color: #444; }
+    .manifesto-text strong {
+      font-weight: 800; letter-spacing: .04em;
+    }
+    .manifesto-text em {
+      font-style: italic; color: var(--purple);
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      #manifesto { padding: 72px 24px 60px; }
+    }
+
     /* ── PROJETS GRID ────────────────────────── */
     #projets { padding: 80px 0 0; background: var(--off-white); }
     .projets-head {
@@ -439,6 +473,19 @@
       <!-- @CLIENT_TICKER@ -->
     </div>
   </div>
+
+  <!-- MANIFESTO -->
+  <section id="manifesto">
+    <div class="manifesto-inner">
+      <div class="manifesto-tag">Manifesto</div>
+      <p class="manifesto-text">
+        <strong>BUILD</strong> is a creative set-building workshop, founded by a team of experienced builders, decorators, and set designers with over <em>15 years of expertise</em> in fashion, art, and events. Based in Paris, we cater to international clients, delivering tailor-made projects that consistently exceed expectations.
+      </p>
+      <p class="manifesto-text">
+        Every creation at BUILD is an opportunity to craft something exceptional <em>&mdash; closely aligned with our clients' vision.</em>
+      </p>
+    </div>
+  </section>
 
   <!-- PROJETS -->
   <section id="projets">
