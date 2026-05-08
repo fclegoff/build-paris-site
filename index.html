@@ -8,6 +8,9 @@
   <meta property="og:title" content="BUILD — Production Design · Set Building Workshop">
   <meta property="og:description" content="Set building workshop · Pantin 93">
   <meta property="og:url" content="https://build-paris.com">
+  <link rel="alternate" hreflang="fr" href="https://build-paris.com/">
+  <link rel="alternate" hreflang="en" href="https://build-paris.com/?lang=en">
+  <link rel="alternate" hreflang="x-default" href="https://build-paris.com/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -15,7 +18,7 @@
     :root {
       --black: #000;
       --white: #fff;
-      --paper: #f5f1ea;       /* warm undertone for workshop section */
+      --paper: #f5f1ea;
       --grey: #9a9a9a;
       --hairline: #eaeaea;
       --font: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
@@ -30,6 +33,10 @@
       cursor: none;
     }
     a { color: inherit; text-decoration: none; }
+
+    /* ── i18n — show only matching lang elements ────────────── */
+    :root[lang="fr"] [lang="en"] { display: none !important; }
+    :root[lang="en"] [lang="fr"] { display: none !important; }
 
     /* ── CUSTOM CURSOR ────────────────────────── */
     .cursor {
@@ -73,12 +80,24 @@
       display: flex; gap: 24px; align-items: center;
       font-size: 12px; letter-spacing: .12em;
     }
-    .nav-right a { text-transform: lowercase; transition: opacity .2s; }
-    .nav-right a:hover { opacity: .5; }
+    .nav-right a, .nav-right button {
+      text-transform: lowercase; transition: opacity .2s;
+      background: none; border: none; color: inherit;
+      font: inherit; cursor: none; padding: 0;
+    }
+    .nav-right a:hover, .nav-right button:hover { opacity: .5; }
+    .lang-switcher {
+      display: flex; gap: 8px; align-items: center;
+      letter-spacing: .12em; font-size: 12px;
+    }
+    .lang-switcher button { padding: 0 4px; }
+    .lang-switcher button.active { font-weight: 700; opacity: 1; }
+    .lang-switcher .sep { opacity: .35; }
 
     @media (max-width: 768px) {
-      nav { padding: 18px 20px; }
+      nav { padding: 14px 20px; }
       .nav-links { display: none; }
+      .nav-right { gap: 16px; font-size: 11px; }
     }
 
     /* ── HERO ─────────────────────────────────── */
@@ -98,14 +117,12 @@
     }
     .hero-caption .dot { margin: 0 10px; opacity: .5; }
     .hero-caption b { font-weight: 500; }
-
     .hero-meta {
       position: absolute; bottom: 32px; right: 32px;
       font-size: 10px; letter-spacing: .2em;
       text-transform: uppercase; color: var(--white);
       opacity: .55; text-align: right;
     }
-
     @media (max-width: 768px) {
       .hero-caption { left: 20px; bottom: 24px; font-size: 10px; }
       .hero-meta { right: 20px; bottom: 24px; font-size: 9px; }
@@ -134,7 +151,6 @@
       margin-top: 22px; color: #555;
     }
     .manifesto-text b { font-weight: 500; letter-spacing: .04em; }
-
     @media (max-width: 768px) {
       #manifesto { padding: 80px 20px; }
       .manifesto-grid { grid-template-columns: 1fr; gap: 24px; }
@@ -187,7 +203,6 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* Hover preview that follows cursor */
     #row-preview {
       position: fixed; pointer-events: none;
       width: 360px; height: 220px;
@@ -198,9 +213,7 @@
       box-shadow: 0 20px 60px rgba(0,0,0,.25);
     }
     #row-preview.visible { opacity: 1; transform: translate3d(-50%, -50%, 0) scale(1); }
-    #row-preview img {
-      width: 100%; height: 100%; object-fit: cover;
-    }
+    #row-preview img { width: 100%; height: 100%; object-fit: cover; }
 
     @media (max-width: 768px) {
       #projects { padding: 40px 20px 80px; }
@@ -220,9 +233,7 @@
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 80px; align-items: center;
     }
-    .workshop-image {
-      aspect-ratio: 4/5; overflow: hidden;
-    }
+    .workshop-image { aspect-ratio: 4/5; overflow: hidden; }
     .workshop-image img {
       width: 100%; height: 100%; object-fit: cover;
       filter: grayscale(.15);
@@ -256,7 +267,6 @@
       text-transform: uppercase; color: var(--grey);
       margin-top: 6px;
     }
-
     @media (max-width: 900px) {
       #workshop { padding: 80px 20px; }
       .workshop-inner { grid-template-columns: 1fr; gap: 40px; }
@@ -276,10 +286,7 @@
     }
     .insta-handle .live { color: var(--grey); font-size: 9px; }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
-
-    .insta-grid {
-      display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px;
-    }
+    .insta-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; }
     .insta-thumb {
       aspect-ratio: 1; overflow: hidden; background: #d8d6d0;
       transition: opacity .3s;
@@ -288,10 +295,9 @@
       width: 100%; height: 100%; object-fit: cover;
       transition: transform .5s;
     }
-    .insta-thumb:hover img { transform: scale(1.04); }
+    .insta-thumb:hover img { transform: scale(1.06); }
     .insta-grid:hover .insta-thumb { opacity: .5; }
     .insta-grid:hover .insta-thumb:hover { opacity: 1; }
-
     @media (max-width: 900px) { .insta-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 768px) { #instagram { padding: 60px 20px; } }
 
@@ -310,9 +316,7 @@
       font-size: clamp(40px, 5.5vw, 80px);
       font-weight: 400; letter-spacing: -.02em; line-height: .95;
     }
-    .contact-mail {
-      align-self: end;
-    }
+    .contact-mail { align-self: end; }
     .contact-mail a {
       font-size: clamp(20px, 2vw, 28px);
       font-weight: 400; letter-spacing: -.005em;
@@ -324,7 +328,6 @@
       display: block; font-size: 10px; letter-spacing: .25em;
       text-transform: uppercase; color: var(--grey); margin-bottom: 14px;
     }
-
     .contact-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 32px; padding: 60px 0 80px;
@@ -339,7 +342,6 @@
       color: rgba(255,255,255,.85); line-height: 1.6;
     }
     .contact-col a:hover { opacity: .6; }
-
     .contact-bottom {
       display: flex; justify-content: space-between; align-items: center;
       padding-top: 24px; border-top: 1px solid rgba(255,255,255,.07);
@@ -347,7 +349,6 @@
       color: var(--grey);
     }
     .contact-bottom a:hover { color: var(--white); }
-
     @media (max-width: 900px) {
       #contact { padding: 60px 20px 24px; }
       .contact-head { grid-template-columns: 1fr; gap: 32px; padding-bottom: 48px; }
@@ -364,13 +365,17 @@
   <nav>
     <a href="/" class="nav-logo">B U I L D</a>
     <ul class="nav-links">
-      <li><a href="#projects">work</a></li>
-      <li><a href="#workshop">workshop</a></li>
-      <li><a href="#instagram">instagram</a></li>
+      <li><a href="#projects"><span lang="fr">projets</span><span lang="en">work</span></a></li>
+      <li><a href="#workshop"><span lang="fr">atelier</span><span lang="en">workshop</span></a></li>
+      <li><a href="#contact">contact</a></li>
     </ul>
     <div class="nav-right">
       <a href="https://www.instagram.com/build.paris/" target="_blank">@build.paris</a>
-      <a href="#contact">contact</a>
+      <div class="lang-switcher" role="group" aria-label="Language">
+        <button data-lang="fr" aria-label="Français">fr</button>
+        <span class="sep">/</span>
+        <button data-lang="en" aria-label="English">en</button>
+      </div>
     </div>
   </nav>
 
@@ -378,10 +383,11 @@
   <section id="hero">
     <img src="/img/ig-DT0V4oADD9B.jpg" alt="BUILD — Adidas Originals × Solebox">
     <div class="hero-caption">
-      <b>Adidas Originals × Solebox</b><span class="dot">·</span>Set construction
+      <b>Adidas Originals × Solebox</b><span class="dot">·</span><span lang="fr">Construction décor</span><span lang="en">Set construction</span>
     </div>
     <div class="hero-meta">
-      Production design<br>Set building workshop<br>Pantin 93
+      <span lang="fr">Production design<br>Atelier de construction<br>Pantin 93</span>
+      <span lang="en">Production design<br>Set building workshop<br>Pantin 93</span>
     </div>
   </section>
 
@@ -390,10 +396,17 @@
     <div class="manifesto-grid">
       <div class="manifesto-label">Manifesto</div>
       <div>
-        <p class="manifesto-text">
+        <p class="manifesto-text" lang="fr">
+          <b>BUILD</b> est un atelier de construction de décors fondé par une équipe expérimentée de constructeurs, décorateurs et set designers — plus de 15 ans d'expertise dans la mode, l'art et l'événementiel.
+        </p>
+        <p class="manifesto-text" lang="fr">
+          Basés à Paris, nous accompagnons des clients internationaux avec des projets sur-mesure qui dépassent leurs attentes. Chez BUILD, chaque création est l'occasion de fabriquer quelque chose d'exceptionnel — au plus près de la vision de nos clients.
+        </p>
+
+        <p class="manifesto-text" lang="en">
           <b>BUILD</b> is a creative set-building workshop, founded by a team of experienced builders, decorators, and set designers with over 15 years of expertise in fashion, art, and events.
         </p>
-        <p class="manifesto-text">
+        <p class="manifesto-text" lang="en">
           Based in Paris, we cater to international clients, delivering tailor-made projects that consistently exceed expectations. Every creation at BUILD is an opportunity to craft something exceptional and closely aligned with our clients' vision.
         </p>
       </div>
@@ -403,9 +416,15 @@
   <!-- PROJECTS -->
   <section id="projects">
     <div class="section-head">
-      <div class="section-label">Selected Work</div>
+      <div class="section-label">
+        <span lang="fr">Projets sélectionnés</span>
+        <span lang="en">Selected work</span>
+      </div>
       <div class="section-meta">
-        <a href="https://www.instagram.com/build.paris/" target="_blank">View all on Instagram ↗</a>
+        <a href="https://www.instagram.com/build.paris/" target="_blank">
+          <span lang="fr">Tout voir sur Instagram ↗</span>
+          <span lang="en">View all on Instagram ↗</span>
+        </a>
       </div>
     </div>
     <ul class="row-list" id="row-list">
@@ -483,15 +502,33 @@
         <img src="/img/ig-DXOpqyLjH_p.jpg" alt="Atelier BUILD Pantin">
       </div>
       <div class="workshop-text">
-        <div class="label">Workshop · Pantin 93</div>
-        <h2>Built in Pantin, delivered anywhere.</h2>
-        <p>BUILD est un atelier de construction de décors, basé à Pantin (93). Menuiserie, métal, résine, peinture — tout se fait en interne, du prototype au grand format.</p>
-        <p>Chaque chantier a son chef de chantier dédié, de la lecture des plans à la livraison sur set.</p>
+        <div class="label"><span lang="fr">L'atelier · Pantin 93</span><span lang="en">Workshop · Pantin 93</span></div>
+        <h2 lang="fr">Construit à Pantin, livré partout.</h2>
+        <h2 lang="en">Built in Pantin, delivered anywhere.</h2>
+
+        <p lang="fr">BUILD est un atelier de construction de décors basé à Pantin (93). Menuiserie, métal, résine, peinture — tout se fait en interne, du prototype au grand format.</p>
+        <p lang="fr">Chaque chantier a son chef de chantier dédié, de la lecture des plans à la livraison sur set.</p>
+
+        <p lang="en">BUILD is a set-building workshop based in Pantin (93). Carpentry, metal, resin, paint — everything happens in-house, from prototype to large-scale productions.</p>
+        <p lang="en">Each project has its own dedicated foreman, from blueprint to on-set delivery.</p>
+
         <div class="workshop-stats">
-          <div><div class="n">15+</div><div class="l">Years</div></div>
-          <div><div class="n">200+</div><div class="l">Projects</div></div>
-          <div><div class="n">1200</div><div class="l">m² workshop</div></div>
-          <div><div class="n">30+</div><div class="l">Crew</div></div>
+          <div>
+            <div class="n">15+</div>
+            <div class="l"><span lang="fr">Années d'expérience</span><span lang="en">Years</span></div>
+          </div>
+          <div>
+            <div class="n">200+</div>
+            <div class="l"><span lang="fr">Projets livrés</span><span lang="en">Projects</span></div>
+          </div>
+          <div>
+            <div class="n">1200</div>
+            <div class="l"><span lang="fr">m² d'atelier</span><span lang="en">m² workshop</span></div>
+          </div>
+          <div>
+            <div class="n">30+</div>
+            <div class="l"><span lang="fr">Techniciens</span><span lang="en">Crew</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -502,10 +539,13 @@
     <div class="section-head">
       <div class="insta-handle">
         <span>@build.paris</span>
-        <span class="live">Live</span>
+        <span class="live"><span lang="fr">En direct</span><span lang="en">Live</span></span>
       </div>
       <div class="section-meta">
-        <a href="https://www.instagram.com/build.paris/" target="_blank">Follow ↗</a>
+        <a href="https://www.instagram.com/build.paris/" target="_blank">
+          <span lang="fr">Suivre ↗</span>
+          <span lang="en">Follow ↗</span>
+        </a>
       </div>
     </div>
     <div class="insta-grid">
@@ -543,16 +583,20 @@
   <section id="contact">
     <div class="contact-inner">
       <div class="contact-head">
-        <h2>Let's<br>build it.</h2>
+        <h2 lang="fr">Construisons<br>ensemble.</h2>
+        <h2 lang="en">Let's<br>build it.</h2>
         <div class="contact-mail">
-          <span class="label">Demande de devis</span>
+          <span class="label">
+            <span lang="fr">Demande de devis</span>
+            <span lang="en">Brief / quote</span>
+          </span>
           <a href="mailto:carole@build-paris.com?subject=Demande%20de%20devis%20—%20BUILD">carole@build-paris.com</a>
         </div>
       </div>
 
       <div class="contact-grid">
         <div class="contact-col">
-          <div class="label">Workshop</div>
+          <div class="label"><span lang="fr">Atelier</span><span lang="en">Workshop</span></div>
           <p>62 rue Denis Papin<br>93500 Pantin<br>France</p>
         </div>
         <div class="contact-col">
@@ -561,20 +605,63 @@
           <a href="mailto:carole@build-paris.com">carole@build-paris.com</a>
         </div>
         <div class="contact-col">
-          <div class="label">Follow</div>
+          <div class="label"><span lang="fr">Suivre</span><span lang="en">Follow</span></div>
           <a href="https://www.instagram.com/build.paris/" target="_blank">@build.paris</a>
         </div>
       </div>
 
       <div class="contact-bottom">
         <div>© 2026 BUILD SAS · 62 RUE DENIS PAPIN 93500 PANTIN</div>
-        <div>Site by <a href="https://1618-films.tv">1.618</a></div>
+        <div>
+          <span lang="fr">Site par <a href="https://1618-films.tv">1.618</a></span>
+          <span lang="en">Site by <a href="https://1618-films.tv">1.618</a></span>
+        </div>
       </div>
     </div>
   </section>
 
   <script>
-    // Custom cursor
+    // ── Language switcher ──────────────────────────────────────
+    const I18N = {
+      fr: {
+        title: "BUILD — Atelier de construction · Décors et scénographie",
+        description: "BUILD — atelier de construction de décors à Pantin (93). 15+ ans d'expertise pour la mode, l'art et l'événementiel.",
+      },
+      en: {
+        title: "BUILD — Production Design · Set Building Workshop",
+        description: "BUILD — creative set-building workshop in Pantin (93). 15+ years of expertise in fashion, art, and events.",
+      },
+    };
+
+    function setLang(lang) {
+      if (lang !== "fr" && lang !== "en") lang = "fr";
+      document.documentElement.lang = lang;
+      document.title = I18N[lang].title;
+      const desc = document.querySelector('meta[name="description"]');
+      if (desc) desc.setAttribute("content", I18N[lang].description);
+      // active state
+      document.querySelectorAll(".lang-switcher button").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.lang === lang);
+      });
+      try { localStorage.setItem("buildLang", lang); } catch (e) {}
+      // update URL ?lang= without reload
+      const url = new URL(window.location);
+      if (lang === "en") url.searchParams.set("lang", "en");
+      else url.searchParams.delete("lang");
+      window.history.replaceState({}, "", url);
+    }
+
+    // Determine initial language
+    const params = new URLSearchParams(window.location.search);
+    const stored = (() => { try { return localStorage.getItem("buildLang"); } catch (e) { return null; } })();
+    const browser = (navigator.language || "fr").toLowerCase().startsWith("en") ? "en" : "fr";
+    setLang(params.get("lang") || stored || browser);
+
+    document.querySelectorAll(".lang-switcher button").forEach(btn => {
+      btn.addEventListener("click", () => setLang(btn.dataset.lang));
+    });
+
+    // ── Custom cursor ────────────────────────────────
     const cursor = document.getElementById('cursor');
     let cx = 0, cy = 0, tx = 0, ty = 0;
     document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
@@ -586,13 +673,12 @@
     }
     tick();
 
-    // Cursor hover state on interactive elements
     document.querySelectorAll('a, button').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
 
-    // Project row preview follows cursor
+    // ── Project row preview follows cursor ───────────
     const preview = document.getElementById('row-preview');
     const previewImg = document.getElementById('row-preview-img');
     document.querySelectorAll('#row-list .row').forEach(row => {
