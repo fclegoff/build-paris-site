@@ -55,6 +55,10 @@ TITLE_OVERRIDES = {
 }
 
 
+class RateLimited(Exception):
+    pass
+
+
 def fetch_profile():
     url = f"https://www.instagram.com/api/v1/users/web_profile_info/?username={USERNAME}"
     req = urllib.request.Request(url, headers={
@@ -62,8 +66,13 @@ def fetch_profile():
         "X-IG-App-ID": APP_ID,
         "Accept": "application/json",
     })
-    with urllib.request.urlopen(req, timeout=20) as r:
-        return json.loads(r.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            return json.loads(r.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        if e.code in (401, 403, 429):
+            raise RateLimited(f"Instagram rate-limited or auth-required (HTTP {e.code})")
+        raise
 
 
 def detect_client(caption: str) -> str:
@@ -128,7 +137,14 @@ def download(url: str, target: Path) -> bool:
 
 def main():
     print(f"→ Fetching @{USERNAME}…")
-    raw = fetch_profile()
+    try:
+        raw = fetch_profile()
+    except RateLimited as e:
+        print(f"⚠ {e}")
+        print("✋ Skipping sync — keeping existing data/posts.json + img/.")
+        print("   (GitHub Actions IPs are often rate-limited by Instagram.")
+        print("    Run `python3 scripts/sync-instagram.py` locally to refresh.)")
+        return 0
     user = raw["data"]["user"]
     posts_raw = user.get("edge_owner_to_timeline_media", {}).get("edges", [])
     print(f"  found {len(posts_raw)} posts")
