@@ -33,7 +33,7 @@ CLIENT_MAP = {
     "0800shygirl":          "Shygirl × Centre Pompidou",
     "becausemusic":         "Shygirl × Centre Pompidou",
     "centrepompidou":       "Shygirl × Centre Pompidou",
-    "theodorabosslady":     "Miss Kitoko — SM4LL",
+    "theodorabosslady":     "Miss Kitoko · SM4LL",
     "frederickasseo":       "Too Faced",
     "too_faced":            "Too Faced",
     "toofaced":             "Too Faced",
@@ -45,13 +45,13 @@ CLIENT_MAP = {
 TITLE_OVERRIDES = {
     "DXOpqyLjH_p": "A Peachy Summer",
     "DXEYKTojJnQ": "Pop-up store · Rue de Turenne",
-    "DWBbJf7jPge": "SM4LL — Music video set",
-    "DVBIVrgEd2D": "SS26 Couture — Fashion show",
-    "DUY1h9aDK_4": "The Beginnings — SS26 Couture",
-    "DT269OCDNj6": "ALIAS — Sensory Exhibition",
-    "DT26HPCDI8V": "ALIAS — Sensory Exhibition",
+    "DWBbJf7jPge": "SM4LL · Music video set",
+    "DVBIVrgEd2D": "SS26 Couture · Fashion show",
+    "DUY1h9aDK_4": "The Beginnings · SS26 Couture",
+    "DT269OCDNj6": "ALIAS · Sensory Exhibition",
+    "DT26HPCDI8V": "ALIAS · Sensory Exhibition",
     "DT0V4oADD9B": "Solebox × Adidas Originals",
-    "DT0UFJHjNTt": "Set design — Shooting Chaumet",
+    "DT0UFJHjNTt": "Set design · Shooting Chaumet",
 }
 
 
