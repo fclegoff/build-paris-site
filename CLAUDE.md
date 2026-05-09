@@ -36,12 +36,13 @@ git push origin main
 
 **Problème** : Instagram rate-limite (HTTP 429) toutes les IPs des cloud providers (GitHub Actions, GCP, AWS, Azure). La sync depuis GitHub Actions échoue en silence (`✋ Skipping sync — keeping existing data`).
 
-**Solution actuelle** : `launchd` sur la machine de @fclegoff
+**Solution actuelle** : `launchd` sur la machine de @fclegoff (à terme : sur le Mac de Carole — voir `docs/SETUP-MAC.md` pour le runbook de transfert)
 - Plist : `~/Library/LaunchAgents/com.build-paris.sync.plist`
-- Wrapper : `scripts/local-sync.sh`
+- Wrapper : `scripts/local-sync.sh` (auto-détecte le repo via son chemin, donc portable)
 - Schedule : 9h, 13h, 17h, 21h heure Paris + `RunAtLoad: true` (sync immédiate au login si Mac était off)
 - Logs : `.sync.log` (gitignored)
 - IP résidentielle → pas blacklistée
+- **Important** : un seul Mac doit tourner le cron à la fois (sinon push concurrents)
 
 **Si Mac off plusieurs jours** : la sync rattrape automatiquement au prochain login grâce à `RunAtLoad`.
 

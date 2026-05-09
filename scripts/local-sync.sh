@@ -1,10 +1,10 @@
 #!/bin/bash
 # Local Instagram sync wrapper for launchd cron.
-# Runs from /Users/fclg/build-site, syncs IG, rebuilds, pushes if changes.
+# Syncs IG, rebuilds, pushes if changes.
 # Logs to .sync.log in repo root.
 
 set -u
-REPO="/Users/fclg/build-site"
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO"
 
 LOG=".sync.log"
