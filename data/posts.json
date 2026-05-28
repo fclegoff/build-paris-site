@@ -2,9 +2,20 @@
   "username": "build.paris",
   "name": "BUILD",
   "bio": "PRODUCTION DESIGN    / SET BUILDING WORKSHOP                  PANTIN 93\n📩build.paris@gmail.com",
-  "followers": 1916,
-  "post_count_total": 38,
+  "followers": 1919,
+  "post_count_total": 39,
   "posts": [
+    {
+      "shortcode": "DY4nYe_MrMJ",
+      "url": "https://www.instagram.com/p/DY4nYe_MrMJ/",
+      "image": "/img/ig-DY4nYe_MrMJ.jpg",
+      "client": "Ayanakamura Officiel",
+      "title": "AYA NAKAMURA - STADE FRANCE 2026 TRAILER & DESTINÉE ALBUM ANNOUNCEMENT",
+      "caption": "AYA NAKAMURA - STADE FRANCE 2026 TRAILER & DESTINÉE ALBUM ANNOUNCEMENT\n\nArtist : @ayanakamura_officiel\n\nProduction design : anaisprofit @anaisprofit \n\nRealisateur : ZAVEN @zavenply\nDirection artistique et co-réalisation : FIFOU @misterfifou\nProduction : @pelicanparis\nProductrice : Laure MASSÉ\nDirectrice de production : Marion HOUÉE\n\n@build.paris\nChef constructeur : Nicolas LANTERI nicoplinio\nConstructeurs : \nLucas Moreau Bonneau @lxxas_mb \nAlex Gain @alexandregainparis \nJimmy Dedieu\nLeo Landreau @l3olandreau \nJoseph Braunstein @josephalio \nAlexis Thebaud @4lexiii",
+      "is_video": true,
+      "likes": 24,
+      "timestamp": 1779976688
+    },
     {
       "shortcode": "DY2V4vqjJ4B",
       "url": "https://www.instagram.com/p/DY2V4vqjJ4B/",
@@ -13,7 +24,7 @@
       "title": "Construction pour @jeanpaulgaultier",
       "caption": "Construction pour @jeanpaulgaultier\n«  Le Beau Narcisse & La Belle Rosea »\nSet Design @frederickasseo",
       "is_video": false,
-      "likes": 52,
+      "likes": 59,
       "timestamp": 1779899903
     },
     {
@@ -92,17 +103,6 @@
       "is_video": false,
       "likes": 71,
       "timestamp": 1769181478
-    },
-    {
-      "shortcode": "DT0V4oADD9B",
-      "url": "https://www.instagram.com/p/DT0V4oADD9B/",
-      "image": "/img/ig-DT0V4oADD9B.jpg",
-      "client": "Adidas Originals × Solebox",
-      "title": "Solebox × Adidas Originals",
-      "caption": "Adidas Originals x Solebox\n\nBrand : @solebox\n@adidasoriginals\n\nChef construction : @nicoplinio \nMetalworker : Titouan Dufourc @tattouan",
-      "is_video": false,
-      "likes": 67,
-      "timestamp": 1769095375
     }
   ]
 }
