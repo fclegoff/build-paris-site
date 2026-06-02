@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hermes</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+  <style>
+    :root {
+      --violet: #7B40FF;
+      --violet-dim: #5a2fd4;
+      --black: #0F0F12;
+      --surface: #16161a;
+      --surface2: #1e1e24;
+      --border: #2a2a33;
+      --text: #e8e8f0;
+      --text-dim: #88889a;
+      --font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --mono: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: var(--font);
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .logo {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: var(--violet);
+    }
+
+    #new-chat {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-family: var(--font);
+      font-size: 12px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    #new-chat:hover { border-color: var(--violet); color: var(--text); }
+
+    /* ── Main layout ── */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      max-width: 760px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ── Messages ── */
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 0 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    #messages::-webkit-scrollbar { width: 4px; }
+    #messages::-webkit-scrollbar-track { background: transparent; }
+    #messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* Empty state */
+    #empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding-bottom: 60px;
+    }
+    .empty-glyph {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--violet);
+      opacity: 0.25;
+      line-height: 1;
+    }
+    .empty-sub {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    /* Message rows */
+    .message {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .message.user { flex-direction: row-reverse; }
+
+    .avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-top: 2px;
+    }
+    .message.user .avatar {
+      background: var(--violet);
+      color: #fff;
+    }
+    .message.assistant .avatar {
+      background: var(--surface2);
+      color: var(--violet);
+      border: 1px solid var(--border);
+    }
+
+    .bubble {
+      max-width: calc(100% - 50px);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .message.user .bubble {
+      background: var(--violet);
+      color: #fff;
+      border-bottom-right-radius: 3px;
+    }
+    .message.assistant .bubble {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 3px;
+    }
+
+    /* Markdown inside assistant bubble */
+    .bubble p { margin: 0 0 6px; }
+    .bubble p:last-child { margin-bottom: 0; }
+    .bubble ul, .bubble ol { padding-left: 20px; margin: 6px 0; }
+    .bubble li { margin: 3px 0; }
+    .bubble h1, .bubble h2, .bubble h3 {
+      font-weight: 600;
+      margin: 10px 0 6px;
+      line-height: 1.3;
+    }
+    .bubble h1 { font-size: 16px; }
+    .bubble h2 { font-size: 15px; }
+    .bubble h3 { font-size: 14px; }
+    .bubble strong { font-weight: 600; }
+    .bubble em { font-style: italic; }
+    .bubble a { color: var(--violet); text-decoration: underline; }
+    .bubble code {
+      background: var(--surface2);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-family: var(--mono);
+    }
+    .bubble pre {
+      background: var(--black);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      overflow-x: auto;
+      margin: 8px 0;
+    }
+    .bubble pre code {
+      background: none;
+      padding: 0;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .bubble blockquote {
+      border-left: 2px solid var(--violet);
+      padding-left: 12px;
+      color: var(--text-dim);
+      margin: 6px 0;
+    }
+    .bubble hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+    .bubble table { border-collapse: collapse; font-size: 13px; margin: 8px 0; }
+    .bubble th, .bubble td {
+      border: 1px solid var(--border);
+      padding: 5px 10px;
+    }
+    .bubble th { background: var(--surface2); }
+
+    /* Blinking cursor during stream */
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 13px;
+      background: var(--violet);
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 0.75s step-end infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* ── Input area ── */
+    #input-area {
+      padding: 12px 0 20px;
+      flex-shrink: 0;
+    }
+
+    .input-box {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 10px 10px 16px;
+      transition: border-color 0.15s;
+    }
+    .input-box:focus-within { border-color: var(--violet); }
+
+    #input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.5;
+      resize: none;
+      min-height: 22px;
+      max-height: 180px;
+    }
+    #input::placeholder { color: var(--text-dim); }
+
+    #send {
+      background: var(--violet);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s, opacity 0.15s;
+    }
+    #send:hover:not(:disabled) { background: var(--violet-dim); }
+    #send:disabled { opacity: 0.35; cursor: default; }
+
+    .hint {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 7px;
+      opacity: 0.55;
+    }
+
+    /* Error bubble */
+    .error-text { color: #ff6b6b; }
+
+    @media (max-width: 600px) {
+      header { padding: 12px 16px; }
+      main { padding: 0 12px; }
+      .bubble { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="logo">HERMES</span>
+  <button id="new-chat">New chat</button>
+</header>
+
+<main>
+  <div id="messages">
+    <div id="empty-state">
+      <div class="empty-glyph">H</div>
+      <p class="empty-sub">How can I help you today?</p>
+    </div>
+  </div>
+
+  <div id="input-area">
+    <div class="input-box">
+      <textarea id="input" placeholder="Message Hermes…" rows="1" autofocus></textarea>
+      <button id="send" disabled aria-label="Send">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 12V2M2 7l5-5 5 5" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <p class="hint">Enter to send &nbsp;·&nbsp; Shift+Enter for newline</p>
+  </div>
+</main>
+
+<script>
+  const SYSTEM = 'You are Hermes, an intelligent and articulate assistant. Be helpful, concise, and precise.';
+  const API = '/api/chat';
+
+  let history = [];   // [{role, content}]
+  let streaming = false;
+
+  const msgEl   = document.getElementById('messages');
+  const emptyEl = document.getElementById('empty-state');
+  const inputEl = document.getElementById('input');
+  const sendBtn = document.getElementById('send');
+
+  // ── Marked config ──────────────────────────────────────────────────────────
+  marked.setOptions({ breaks: true, gfm: true });
+
+  // ── Auto-resize textarea ───────────────────────────────────────────────────
+  inputEl.addEventListener('input', () => {
+    inputEl.style.height = 'auto';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 180) + 'px';
+    syncSendBtn();
+  });
+
+  function syncSendBtn() {
+    sendBtn.disabled = !inputEl.value.trim() || streaming;
+  }
+
+  inputEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (!sendBtn.disabled) send();
+    }
+  });
+
+  sendBtn.addEventListener('click', send);
+  document.getElementById('new-chat').addEventListener('click', resetChat);
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+  function resetChat() {
+    history = [];
+    msgEl.innerHTML = '';
+    msgEl.appendChild(emptyEl);
+    emptyEl.style.display = '';
+    inputEl.focus();
+  }
+
+  function escHtml(t) {
+    return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+            .replace(/"/g,'&quot;').replace(/\n/g,'<br>');
+  }
+
+  function appendMessage(role, content) {
+    emptyEl.remove();
+
+    const wrap = document.createElement('div');
+    wrap.className = `message ${role}`;
+
+    const av = document.createElement('div');
+    av.className = 'avatar';
+    av.textContent = role === 'user' ? 'YOU' : 'H';
+
+    const bub = document.createElement('div');
+    bub.className = 'bubble';
+    bub.innerHTML = role === 'user'
+      ? escHtml(content)
+      : marked.parse(content);
+
+    wrap.appendChild(av);
+    wrap.appendChild(bub);
+    msgEl.appendChild(wrap);
+    scrollBottom();
+    return bub;
+  }
+
+  function scrollBottom() {
+    msgEl.scrollTop = msgEl.scrollHeight;
+  }
+
+  // ── Send ───────────────────────────────────────────────────────────────────
+  async function send() {
+    const text = inputEl.value.trim();
+    if (!text || streaming) return;
+
+    inputEl.value = '';
+    inputEl.style.height = 'auto';
+    streaming = true;
+    syncSendBtn();
+
+    history.push({ role: 'user', content: text });
+    appendMessage('user', text);
+
+    // Placeholder assistant bubble with blinking cursor
+    const bub = appendMessage('assistant', '');
+    const cursor = document.createElement('span');
+    cursor.className = 'cursor';
+    bub.appendChild(cursor);
+
+    let accumulated = '';
+
+    try {
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history, system: SYSTEM }),
+      });
+
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(`${res.status} — ${msg}`);
+      }
+
+      const reader = res.body.getReader();
+      const dec    = new TextDecoder();
+      let buf      = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buf += dec.decode(value, { stream: true });
+        const lines = buf.split('\n');
+        buf = lines.pop(); // keep incomplete line
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const raw = line.slice(6);
+          if (raw === '[DONE]') continue;
+
+          let evt;
+          try { evt = JSON.parse(raw); } catch { continue; }
+
+          if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
+            accumulated += evt.delta.text;
+            cursor.remove();
+            bub.innerHTML = marked.parse(accumulated);
+            bub.appendChild(cursor);
+            scrollBottom();
+          }
+        }
+      }
+
+    } catch (err) {
+      cursor.remove();
+      bub.innerHTML = `<span class="error-text">Error: ${escHtml(err.message)}</span>`;
+    }
+
+    // Finalise
+    cursor.remove();
+    if (accumulated) {
+      bub.innerHTML = marked.parse(accumulated);
+      history.push({ role: 'assistant', content: accumulated });
+    }
+
+    streaming = false;
+    syncSendBtn();
+    inputEl.focus();
+    scrollBottom();
+  }
+</script>
+
+</body>
+</html>
